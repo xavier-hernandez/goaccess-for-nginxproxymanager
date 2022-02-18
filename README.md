@@ -3,6 +3,7 @@
 Still in development...
 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
+Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
 
 New to creating docker images so bear with me. I did this more for me then for public consumption but it appears to work so maybe someone might find it useful.
 
