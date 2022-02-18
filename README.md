@@ -1,6 +1,6 @@
 # GoAccess for Nginx Proxy Manager Logs
 
-Still in development...
+Still in development... You might need to wait a bit if you have a large amount of logs for it parse.
 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
 Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
@@ -26,9 +26,12 @@ goaccess:
         - ./nginx_proxy/data/logs:/opt/log
 ```
 
+![Alt text](https://ibb.co/GMz9Hh8 "GoAccess Dashboard")
+
 
 Issues currently aware of:
-- Need a default index.html page, you need to currently wait for something to parse to see the website (maybe healthcheck)
+- Need a default index.html page, you need to currently wait for something to parse to see the website if your logs are too big (maybe healthcheck)
+- An option to not load archived logs
 - GeoIP database needs to be loaded
 - New proxy host will not automatically show up, image needs to be restarted
 - Allow for goaccess.conf access
