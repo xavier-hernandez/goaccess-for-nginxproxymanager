@@ -26,7 +26,7 @@ goaccess:
         - ./nginx_proxy/data/logs:/opt/log
 ```
 
-![Alt text](https://ibb.co/GMz9Hh8 "GoAccess Dashboard")
+![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 
 Issues currently aware of:
