@@ -3,6 +3,7 @@
 Still in development... You might need to wait a bit if you have a large amount of logs for it parse.
 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
+
 Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
