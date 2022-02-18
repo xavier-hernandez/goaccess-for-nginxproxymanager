@@ -33,7 +33,7 @@ Issues currently aware of:
 - Need a default index.html page, you need to currently wait for something to parse to see the website if your logs are too big (maybe healthcheck)
 - An option to not load archived logs
 - GeoIP database needs to be loaded
-- New proxy host will not automatically show up, image needs to be restarted
+- New proxy host will not automatically show up, container needs to be restarted
 - Allow for goaccess.conf access
 - and more that I don't know of I'm sure...
 
