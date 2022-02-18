@@ -5,6 +5,8 @@ Still in development... You might need to wait a bit if you have a large amount 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
 Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
 
+![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
+
 New to creating docker images so bear with me. I did this more for me then for public consumption but it appears to work so maybe someone might find it useful.
 
 This docker container should work out of the box with Nginx Proxy Manager to parse proxy logs. The goaccess.conf has been configured to only access proxy logs and archived proxy logs.
@@ -25,9 +27,6 @@ goaccess:
     volumes:
         - ./nginx_proxy/data/logs:/opt/log
 ```
-
-![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
-
 
 Issues currently aware of:
 - Need a default index.html page, you need to currently wait for something to parse to see the website if your logs are too big (maybe healthcheck)
