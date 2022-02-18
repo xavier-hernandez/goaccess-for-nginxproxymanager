@@ -1,6 +1,6 @@
 # GoAccess for Nginx Proxy Manager Logs
 
-Still in development... You might need to wait a bit if you have a large amount of logs for it parse.
+Still in development... You might need to wait a bit if you have a large amount of logs for it to parse.
 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
 
