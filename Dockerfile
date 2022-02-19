@@ -31,4 +31,4 @@ EXPOSE 7880
 
 COPY /resources/scripts/start.sh /start.sh
 RUN ["chmod", "+x", "/start.sh"]
-CMD ["sh", "/start.sh"]
+CMD ["bash", "/start.sh"]
