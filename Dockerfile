@@ -24,6 +24,7 @@ COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf
 
 # set up nginx
 RUN rm /etc/nginx/sites-enabled/default
+COPY /resources/nginx/index.html /var/www/html/index.html
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
 
 VOLUME ["/opt/log"]
