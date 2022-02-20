@@ -28,6 +28,19 @@ goaccess:
     volumes:
         - ./nginx_proxy/data/logs:/opt/log
 ```
+If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
+```
+goaccess:
+    image: xavierh/goaccess-for-nginxproxymanager:develop
+    container_name: goaccess
+    restart: always
+    volumes:
+        - ./nginx_proxy/data/logs:/opt/log
+    environment:
+        - PUID=0
+        - PGID=0
+        - TZ=America/New_York        
+```
 
 Issues currently aware of:
 - Need a default index.html page, you need to currently wait for something to parse to see the website if your logs are too big (maybe healthcheck)
