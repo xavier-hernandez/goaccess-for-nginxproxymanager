@@ -26,7 +26,7 @@ goaccess:
     ports:
         - '7880:7880'
     volumes:
-        - ./nginx_proxy/data/logs:/opt/log
+        - /path/to/host/nginx/logs:/opt/log
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```
@@ -35,7 +35,7 @@ goaccess:
     container_name: goaccess
     restart: always
     volumes:
-        - ./nginx_proxy/data/logs:/opt/log
+        - /path/to/host/nginx/logs:/opt/log
     environment:
         - PUID=0
         - PGID=0
