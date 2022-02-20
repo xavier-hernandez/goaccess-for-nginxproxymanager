@@ -21,6 +21,7 @@ RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf
+COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
 # set up nginx
 RUN rm /etc/nginx/sites-enabled/default

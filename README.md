@@ -42,13 +42,7 @@ goaccess:
         - TZ=America/New_York        
 ```
 
-Issues currently aware of:
-- Need a default index.html page, you need to currently wait for something to parse to see the website if your logs are too big (maybe healthcheck)
-- An option to not load archived logs
-- GeoIP database needs to be loaded
-- New proxy host will not automatically show up, container needs to be restarted
-- Allow for goaccess.conf access
-- and more that I don't know of I'm sure...
-
-
 Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
+
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="https://www.maxmind.com">https://www.maxmind.com</a>.
