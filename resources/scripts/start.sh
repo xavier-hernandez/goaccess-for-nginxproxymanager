@@ -28,6 +28,7 @@ unset IFS
 
 if [ -z "$proxy_host" ]
 then
+    touch /goaccess/access.log
     proxy_host="/goaccess/access.log"
 fi
 
