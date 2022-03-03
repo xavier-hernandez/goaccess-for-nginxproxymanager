@@ -4,7 +4,11 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
 
+Docker tags: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager/tags
+
 Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
+
+<br>
 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
@@ -19,7 +23,7 @@ Currently using GoAccess version: 1.5.5
 <br>
 
 ---
-## Choose your version
+## Choose your version 
 
 **stable:** xavierh/goaccess-for-nginxproxymanager:latest
 
