@@ -16,7 +16,7 @@ The docker image scans and includes files matching the following criteria: proxy
 
 GoAccess version: 1.5.5
 
-```
+```yml
 goaccess:
     image: xavierh/goaccess-for-nginxproxymanager:develop
     container_name: goaccess
@@ -29,13 +29,15 @@ goaccess:
         - /path/to/host/nginx/logs:/opt/log
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
-```
+```yml
 goaccess:
     image: xavierh/goaccess-for-nginxproxymanager:develop
     container_name: goaccess
     restart: always
     volumes:
         - /path/to/host/nginx/logs:/opt/log
+    ports:
+        - '7880:7880'
     environment:
         - PUID=0
         - PGID=0
