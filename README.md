@@ -14,7 +14,10 @@ This docker container should work out of the box with Nginx Proxy Manager to par
 
 The docker image scans and includes files matching the following criteria: proxy-host-*_access.log.gz proxy-host-*_access.log
 
-GoAccess version: 1.5.5
+Currently using GoAccess version: 1.5.5
+
+Thanks to Just5KY you can find the arm version here: [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
+
 
 ```yml
 goaccess:
