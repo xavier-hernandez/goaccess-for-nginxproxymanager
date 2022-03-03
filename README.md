@@ -16,13 +16,14 @@ The docker image scans and includes files matching the following criteria: proxy
 
 Currently using GoAccess version: 1.5.5
 
+<br>
 
 ---
-### Choose your version
+## Choose your version
 
 **stable:** xavierh/goaccess-for-nginxproxymanager:latest
 
-**latest development:** xavierh/goaccess-for-nginxproxymanager:develop
+**latest stable development:** xavierh/goaccess-for-nginxproxymanager:develop
 
 Thanks to Just5KY you can find the arm version here: [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
 
