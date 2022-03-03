@@ -16,12 +16,23 @@ The docker image scans and includes files matching the following criteria: proxy
 
 Currently using GoAccess version: 1.5.5
 
+
+---
+### Choose your version
+
+**stable:** xavierh/goaccess-for-nginxproxymanager:latest
+
+**latest development:** xavierh/goaccess-for-nginxproxymanager:develop
+
 Thanks to Just5KY you can find the arm version here: [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
 
+---
+
+<br>
 
 ```yml
 goaccess:
-    image: xavierh/goaccess-for-nginxproxymanager:develop
+    image: xavierh/goaccess-for-nginxproxymanager:latest
     container_name: goaccess
     restart: always
     environment:
@@ -34,7 +45,7 @@ goaccess:
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
 goaccess:
-    image: xavierh/goaccess-for-nginxproxymanager:develop
+    image: xavierh/goaccess-for-nginxproxymanager:latest
     container_name: goaccess
     restart: always
     volumes:
@@ -51,10 +62,3 @@ Thanks to https://github.com/GregYankovoy for the inspiration, and for their ngi
 
 This product includes GeoLite2 data created by MaxMind, available from
 <a href="https://www.maxmind.com">https://www.maxmind.com</a>.
-=======
-# GoAccess Docker Image for Nginx Proxy Manager
-
-For development information
-https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/tree/develop
-
-Current development docker image found here: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
