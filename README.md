@@ -64,16 +64,10 @@ goaccess:
         - TZ=America/New_York        
         - SKIP_ARCHIVED_LOGS=False #optional        
 ```
-<style>
-table, td, th {
-    padding: 10px;
-    border: 1px solid white;
-}
-</style>
 
 | Parameter | Function |
 |-----------|----------|
-| -e SKIP_ARCHIVED_LOGS=True/False         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
+| `-e SKIP_ARCHIVED_LOGS=True/False`         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
 
 Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
 
