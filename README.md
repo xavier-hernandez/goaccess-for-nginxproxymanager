@@ -42,7 +42,10 @@ goaccess:
     restart: always
     environment:
         - TZ=America/New_York
-        - SKIP_ARCHIVED_LOGS=False #optional        
+        - SKIP_ARCHIVED_LOGS=False #optional   
+        - BASIC_AUTH=False #optional
+        - BASIC_AUTH_USERNAME=user #optional
+        - BASIC_AUTH_PASSWORD=pass #optional                
     ports:
         - '7880:7880'
     volumes:
@@ -62,12 +65,18 @@ goaccess:
         - PUID=0
         - PGID=0
         - TZ=America/New_York        
-        - SKIP_ARCHIVED_LOGS=False #optional        
+        - SKIP_ARCHIVED_LOGS=False #optional
+        - BASIC_AUTH=False #optional
+        - BASIC_AUTH_USERNAME=user #optional
+        - BASIC_AUTH_PASSWORD=pass #optional               
 ```
 
 | Parameter | Function |
 |-----------|----------|
 | `-e SKIP_ARCHIVED_LOGS=True/False`         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
+| `-e BASIC_AUTH=True/False`         |   (Optional) Defaults to False. Set to True to enable nginx basic authentication.     |
+| `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
+| `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 
 Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
 

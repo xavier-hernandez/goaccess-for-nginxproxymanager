@@ -21,6 +21,7 @@ RUN apk add --no-cache \
         tini \
         wget \
         curl \
+        apache2-utils\
         libmaxminddb \
         ncurses && \
     rm -rf /var/lib/apt/lists/* && \
@@ -33,6 +34,7 @@ COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 # set up nginx
 COPY /resources/nginx/index.html /var/www/html/index.html
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
+ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
 
 COPY /resources/scripts/start.sh /start.sh
 VOLUME ["/opt/log"]
