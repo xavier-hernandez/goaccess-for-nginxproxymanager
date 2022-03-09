@@ -23,6 +23,7 @@ RUN apk add --no-cache \
         curl \
         apache2-utils\
         libmaxminddb \
+        tzdata \        
         ncurses && \
     rm -rf /var/lib/apt/lists/* && \
     rm /etc/nginx/nginx.conf
