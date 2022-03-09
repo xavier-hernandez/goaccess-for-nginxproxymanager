@@ -16,6 +16,7 @@ RUN make install
 
 FROM alpine:3.15
 RUN apk add --no-cache \
+        tzdata \
         bash \
         nginx \
         tini \
