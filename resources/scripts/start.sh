@@ -40,7 +40,7 @@ proxy_host=""
 
 echo "Checking active logs..."
 IFS=$'\n'
-for file in $(find /opt/log -name 'proxy-host-*_access.log');
+for file in $(find /opt/log -name 'proxy-host-*.log' ! -name "*_error.log");
 do
     if [ -f $file ]
     then
