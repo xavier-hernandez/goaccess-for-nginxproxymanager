@@ -31,4 +31,4 @@ tini -s -- nginx
 
 #RUN GOACCESS
 echo -e "\nProcessing ($((goan_proxy_log_count+goan_proxy_archive_log_count))) total log(s)...\n"
-tini -s -- /goaccess/goaccess /goaccess/access_archive.log ${proxy_host} --no-global-config --config-file=/goaccess-config/goaccess.conf
+tini -s -- /goaccess/goaccess ${goan_container_archive_log} ${goan_proxy_host} --no-global-config --config-file=/goaccess-config/goaccess.conf
