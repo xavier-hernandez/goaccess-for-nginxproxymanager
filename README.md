@@ -2,12 +2,6 @@
 
 Still in development... You might need to wait a bit if you have a large amount of logs for it to parse.
 
-Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
-
-Docker tags: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager/tags
-
-Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
-
 <br>
 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
@@ -16,7 +10,10 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 This docker container should work out of the box with Nginx Proxy Manager to parse proxy logs. The goaccess.conf has been configured to only access proxy logs and archived proxy logs.
 
-The docker image scans and includes files matching the following criteria: proxy-host-*_access.log.gz proxy-host-*_access.log
+The docker image scans and includes files matching the following criteria: 
+* proxy-host-*_access.log.gz
+* proxy-host-*_access.log
+* proxy-host-*.log
 
 Currently using GoAccess version: 1.5.5
 
@@ -32,6 +29,16 @@ Currently using GoAccess version: 1.5.5
 Thanks to Just5KY you can find the arm version here: [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
 
 ---
+
+Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
+
+Docker tags: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager/tags
+
+Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
+
+---
+
+
 
 <br>
 

@@ -37,7 +37,10 @@ COPY /resources/nginx/index.html /var/www/html/index.html
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
 
-COPY /resources/scripts/start.sh /start.sh
+WORKDIR /goan
+ADD /resources/scripts/funcs funcs
+COPY /resources/scripts/start.sh start.sh
+
 VOLUME ["/opt/log"]
 EXPOSE 7880
-CMD ["sh", "/start.sh"]
+CMD ["sh", "/goan/start.sh"]
