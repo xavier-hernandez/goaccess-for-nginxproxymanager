@@ -1,0 +1,39 @@
+name: Docker multi-arch build and push
+
+on:
+  schedule:
+    - cron: '50 15 * * *'  #Change this to when you want automatic builds
+  push:
+    branches: [ main ]
+    tags: [ 'v*.*.*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+env:
+  REGISTRY: docker.io
+  IMAGE_NAME: test_image_name
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      # This is used to complete the identity challenge
+      # with sigstore/fulcio when running outside of PRs.
+      id-token: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Setup Docker buildx
+        uses: docker/setup-buildx-action@79abd3f86f79a9d68a23c75a09a9a85889262adf
+
+      - name: Docker login
+        run: docker login -u xavierh -p ${{ secrets.DOCKER_TOKEN }} 
+        
+      - name: Build the Docker image
+        run: docker buildx build --push --platform linux/amd64,linux/arm/v7,linux/arm64/v8 --tag xavierh/goaccess-for-nginxproxymanager:latest .
