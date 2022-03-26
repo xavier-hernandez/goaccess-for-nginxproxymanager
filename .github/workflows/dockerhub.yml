@@ -12,7 +12,7 @@ on:
 
 env:
   REGISTRY: docker.io
-  IMAGE_NAME: test_image_name
+  IMAGE_NAME: goaccess-for-nginxproxymanager
 
 jobs:
   build:
@@ -29,7 +29,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      # https://github.com/docker/setup-qemu-action
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
         
@@ -43,4 +42,4 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
       - name: Build the Docker image
-        run: docker buildx build --push --platform linux/amd64,linux/arm/v7,linux/arm64/v8 --tag ${{ secrets.DOCKERHUB_USERNAME }}/goaccess-for-nginxproxymanager:test .
+        run: docker buildx build --push --platform linux/amd64,linux/arm/v7,linux/arm64/v8 --tag ${{ secrets.DOCKERHUB_USERNAME }}/goaccess-for-nginxproxymanager .
