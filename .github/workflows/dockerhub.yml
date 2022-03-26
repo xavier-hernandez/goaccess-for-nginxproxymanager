@@ -1,4 +1,4 @@
-name: Docker multi-arch build and push
+name: Main branch build & push
 
 on:
   schedule:
