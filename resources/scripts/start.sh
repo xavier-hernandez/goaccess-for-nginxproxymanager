@@ -1,78 +1,34 @@
 #!/bin/bash
+source $(dirname "$0")/funcs/nginx.sh
+source $(dirname "$0")/funcs/logs.sh
 
-#BEGIN - Set NGINX basic authentication
-if [[ "${BASIC_AUTH}" == "True" ]]
-then
-    echo "Setting up basic auth in NGINX..."
-    if [[ -z "$BASIC_AUTH_USERNAME" || -z "$BASIC_AUTH_PASSWORD" ]]
-    then
-        echo "Username or password is blank or not set."
-    else
-        nginx_auth_basic_s="#goan_authbasic"
-        nginx_auth_basic_r="auth_basic    \"GoAccess WebUI\";\n      auth_basic_user_file \/opt\/auth\/.htpasswd; \n"
-        sed -i "s/$nginx_auth_basic_s/$nginx_auth_basic_r/" /etc/nginx/nginx.conf
+goan_version="GOAN v1.0.4"
+goan_log_path="/opt/log"
+goan_dir_valid=0 #false
+goan_proxy_host=""
+goan_container_archive_log="/goaccess/access_archive.log"
+goan_container_active_log="/goaccess/access.log"
+goan_proxy_log_count=0
+goan_proxy_archive_log_count=0
 
-        htpasswd -b /opt/auth/.htpasswd $BASIC_AUTH_USERNAME $BASIC_AUTH_PASSWORD
-    fi
-fi
-#END - Set NGINX basic authentication
+echo -e "\n${goan_version}\n"
 
-#BEGIN - Load archived logs
-if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
-then
-    echo "Skipping archived logs as requested..."
-    touch /goaccess/access_archive.log
-else
-    count=`ls -1 /opt/log/proxy-host-*_access.log*.gz 2>/dev/null | wc -l`
-    if [ $count != 0 ]
-    then 
-        echo "Loading (${count}) archived logs..."
-zcat -f /opt/log/proxy-host-*_access.log*.gz > /goaccess/access_archive.log
-    else
-        echo "No archived logs found..."
-        touch /goaccess/access_archive.log
-fi
-fi
-#END - Load archived logs
+#Set NGINX basic authentication
+nginx_basic_auth
 
-#BEGIN - Find active logs and check for read access
-proxy_host=""
+#Load archived logs
+logs_load_archive ${goan_log_path}
 
-echo "Checking active logs..."
-IFS=$'\n'
-for file in $(find /opt/log -name 'proxy-host-*_access.log');
-do
-    if [ -f $file ]
-    then
-        if [ -r $file ] && R="Read = yes" || R="Read = No"
-        then
-            if [ -z "$proxy_host" ]
-            then
-                proxy_host="${proxy_host}${file}"
-            else
-                proxy_host="${proxy_host} ${file}"
-            fi
-            echo "Filename: $file | $R"
-        else
-            echo "Filename: $file | $R"
-        fi
-    else
-        echo "Filename: $file | Not a file"
-    fi
-done
-unset IFS
+#Find active logs and check for read access
+logs_load_active ${goan_log_path}
 
-if [ -z "$proxy_host" ]
-then
-    touch /goaccess/access.log
-    proxy_host="/goaccess/access.log"
-else
-    echo "Loading proxy-host logs..."    
-fi
-#END - Find active logs and check for read access
+#Mods to index.html
+nginx_image_version
+nginx_processing_count
 
 #RUN NGINX
 tini -s -- nginx
 
 #RUN GOACCESS
-tini -s -- /goaccess/goaccess /goaccess/access_archive.log ${proxy_host} --no-global-config --config-file=/goaccess-config/goaccess.conf
+echo -e "\nProcessing ($((goan_proxy_log_count+goan_proxy_archive_log_count))) total log(s)...\n"
+tini -s -- /goaccess/goaccess ${goan_container_archive_log} ${goan_proxy_host} --no-global-config --config-file=/goaccess-config/goaccess.conf
