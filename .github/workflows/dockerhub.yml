@@ -1,8 +1,8 @@
 name: Main branch build & push
 
 on:
-  schedule:
-    - cron: '50 15 * * *'  #Change this to when you want automatic builds
+  #schedule:
+  #  - cron: '50 15 * * *'  #Change this to when you want automatic builds
   push:
     branches: [ main ]
     tags: [ 'v*.*.*' ]
