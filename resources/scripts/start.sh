@@ -2,7 +2,7 @@
 source $(dirname "$0")/funcs/nginx.sh
 source $(dirname "$0")/funcs/logs.sh
 
-goan_version="GOAN v1.0.3"
+goan_version="GOAN v1.0.4"
 goan_log_path="/opt/log"
 goan_dir_valid=0 #false
 goan_proxy_host=""
