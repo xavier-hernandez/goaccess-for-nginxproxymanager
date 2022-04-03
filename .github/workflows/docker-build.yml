@@ -49,7 +49,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
       - name: Production Build and push
-        if: contains(github.ref, "main")
+        if: ${{ github.ref == 'refs/heads/main' }}
         uses: docker/build-push-action@v2
         with:
           context: .
@@ -60,7 +60,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
       - name: Development Build and push
-        if: contains(github.ref, "develop")
+        if: ${{ github.ref == 'refs/heads/develop' }}
         uses: docker/build-push-action@v2
         with:
           context: .
