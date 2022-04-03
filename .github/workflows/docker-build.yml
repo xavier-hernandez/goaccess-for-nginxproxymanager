@@ -48,48 +48,28 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
-<<<<<<< HEAD
-      - name: Build and push
-=======
       - name: Production Build and push
         if: contains(github.ref, "main")
->>>>>>> main
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-<<<<<<< HEAD
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${{steps.vars.outputs.tag}}
-=======
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:latest
->>>>>>> main
           platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
-<<<<<<< HEAD
-      - name: Build and push
-=======
       - name: Development Build and push
         if: contains(github.ref, "develop")
->>>>>>> main
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
-<<<<<<< HEAD
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:latest
-          platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new          
-          
-=======
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:develop
           platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
->>>>>>> main
       - name: Move cache
         run: |
           rm -rf /tmp/.buildx-cache
