@@ -59,18 +59,25 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 
+<<<<<<< HEAD
       - name: Production Get Tag Name
         if: startsWith(github.ref, 'refs/tags/v')
         uses: little-core-labs/get-git-tag@v3.0.1
         id: tagName
 
+=======
+>>>>>>> main
       - name: Production Tag Build and push
         if: startsWith(github.ref, 'refs/tags/v')
         uses: docker/build-push-action@v2
         with:
           context: .
           push: true
+<<<<<<< HEAD
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${{ steps.tagName.outputs.tag }}
+=======
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKERHUB_IMAGE_NAME }}:${{ github.event.ref }}
+>>>>>>> main
           platforms: linux/amd64,linux/arm/v7,linux/arm64/v8
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new          
