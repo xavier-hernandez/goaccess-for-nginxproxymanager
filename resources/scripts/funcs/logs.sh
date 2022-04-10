@@ -6,7 +6,7 @@ function logs_load_active() {
     if [[ -d "${1}" && -x "${1}" ]];
     then
         IFS=$'\n'
-        for file in $(find "${1}" -name 'proxy-host-*.log' ! -name "*_error.log");
+        for file in $(find "${1}" -name 'proxy*host-*.log' ! -name "*_error.log");
         do
             if [ -f $file ]
             then
