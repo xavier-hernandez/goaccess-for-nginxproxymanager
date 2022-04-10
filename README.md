@@ -21,7 +21,7 @@ The docker image scans and includes files matching the following criteria:
 
 ---
 
-**Docker**   
+## **Docker**
 - Image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
 - OS/ARCH
   - linux/amd64
@@ -33,8 +33,8 @@ The docker image scans and includes files matching the following criteria:
   - latest stable development - xavierh/goaccess-for-nginxproxymanager:develop
 
 
-**Github Repo**   
-https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
+## **Github Repo**   
+- https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
 
 ---
 
