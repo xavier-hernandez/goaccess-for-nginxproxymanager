@@ -14,6 +14,17 @@ goan_proxy_archive_log_count=0
 
 echo -e "\n${goan_version}\n"
 
+#clean up
+if [[ -f "$goan_container_proxy_logs" ]]; then
+    rm ${goan_container_proxy_logs}
+fi
+if [[ -f "$goan_container_archive_log" ]]; then
+    rm ${goan_container_archive_log}
+fi
+if [[ -f "$goan_container_active_log" ]]; then
+    rm ${goan_container_active_log}
+fi
+
 #Set NGINX basic authentication
 nginx_basic_auth
 
