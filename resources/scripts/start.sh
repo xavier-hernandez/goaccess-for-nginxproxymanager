@@ -24,6 +24,10 @@ fi
 if [[ -f "$goan_container_active_log" ]]; then
     rm ${goan_container_active_log}
 fi
+if [[ -f "/goaccess-config/goaccess.conf" ]]; then
+    cp /goaccess-config/goaccess.conf.bak /goaccess-config/goaccess.conf
+fi
+
 
 #Set NGINX basic authentication
 nginx_basic_auth
