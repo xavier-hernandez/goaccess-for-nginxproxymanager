@@ -6,20 +6,14 @@ function logs_load_active() {
     if [[ -d "${1}" && -x "${1}" ]];
     then
         IFS=$'\n'
-        for file in $(find "${1}" -name 'proxy-host-*.log' ! -name "*_error.log");
+        for file in $(find "${1}" -name 'proxy*host-*.log' ! -name "*_error.log");
         do
             if [ -f $file ]
             then
                 if [ -r $file ] && R="Read = yes" || R="Read = No"
                 then
-                    if [ -z "$goan_proxy_host" ]
-                    then
-                        goan_proxy_host="${goan_proxy_host}${file}"
+                    echo "log-file ${file}" >> ${goan_container_proxy_logs}
                         goan_proxy_log_count=$((goan_proxy_log_count+1))
-                    else
-                        goan_proxy_host="${goan_proxy_host} ${file}"
-                        goan_proxy_log_count=$((goan_proxy_log_count+1))
-                    fi
                     echo -ne ' \t '
                     echo "Filename: $file | $R"
                 else
@@ -36,32 +30,33 @@ function logs_load_active() {
         echo "Problem loading directory (check directory or permissions)... ${1}"
     fi
 
-    if [ -z "$goan_proxy_host" ]
+    if [ $goan_proxy_log_count != 0 ]
     then
-        touch ${goan_container_active_log}
-        goan_proxy_host=${goan_container_active_log}
-    else
         echo "Found (${goan_proxy_log_count}) proxy logs...."
+    else
+        touch ${goan_container_active_log}
+        echo "log-file ${goan_container_active_log}" >> ${goan_container_proxy_logs}
     fi
 }
 
 #Find active logs and check for read access
 function logs_load_archive() {
+    touch ${goan_container_archive_log}
+
     if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
     then
         echo "Skipping archived logs as requested..."
-        touch ${goan_container_archive_log}
     else
         if [[ -d "${1}" && -x "${1}" ]];
         then
-            count=`ls -1 ${1}/proxy-host-*_access.log*.gz 2>/dev/null | wc -l`
+            count=`ls -1 ${1}/proxy-host-*_access.log*.gz | wc -l`
             if [ $count != 0 ]
             then 
                 echo "Loading (${count}) archived logs from ${1}..."
                 zcat -f ${1}/proxy-host-*_access.log*.gz > ${goan_container_archive_log}
+                echo  "log-file ${goan_container_archive_log}" >> ${goan_container_proxy_logs}
             else
                 echo "No archived logs found at ${1}..."
-                touch ${goan_container_archive_log}
             fi
             goan_proxy_archive_log_count=$((count))
         else

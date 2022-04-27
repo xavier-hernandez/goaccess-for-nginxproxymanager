@@ -14,33 +14,31 @@ The docker image scans and includes files matching the following criteria:
 * proxy-host-*_access.log.gz
 * proxy-host-*_access.log
 * proxy-host-*.log
+* proxy_host-*.log
 
-Currently using GoAccess version: 1.5.5
-
-<br>
-
----
-## Choose your version 
-
-**stable:** xavierh/goaccess-for-nginxproxymanager:latest
-
-**latest stable development:** xavierh/goaccess-for-nginxproxymanager:develop
-
-Thanks to Just5KY you can find the arm version here: [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
+**Dependencies:**
+- GoAccess version: 1.5.5  
+- GeoLite2-City.mmdb  (2022-04-05)
 
 ---
 
-Docker image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
+## **Docker**
+- Image: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager
+- OS/ARCH
+  - linux/amd64
+  - linux/arm/v7
+  - linux/arm64/v8
+- ARM also available from Just5KY - [justsky/goaccess-for-nginxproxymanager](https://hub.docker.com/r/justsky/goaccess-for-nginxproxymanager)
+- Tags: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager/tags
+  - stable - xavierh/goaccess-for-nginxproxymanager:latest
+  - latest stable development - xavierh/goaccess-for-nginxproxymanager:develop
 
-Docker tags: https://hub.docker.com/r/xavierh/goaccess-for-nginxproxymanager/tags
 
-Github Repo: https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
+## **Github Repo**   
+- https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager
 
 ---
 
-
-
-<br>
 
 ```yml
 goaccess:
@@ -49,7 +47,8 @@ goaccess:
     restart: always
     environment:
         - TZ=America/New_York
-        - SKIP_ARCHIVED_LOGS=False #optional   
+        - SKIP_ARCHIVED_LOGS=False #optional
+        - DEBUG=False #optional
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional                
@@ -73,6 +72,7 @@ goaccess:
         - PGID=0
         - TZ=America/New_York        
         - SKIP_ARCHIVED_LOGS=False #optional
+        - DEBUG=False #optional
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional               
@@ -81,6 +81,7 @@ goaccess:
 | Parameter | Function |
 |-----------|----------|
 | `-e SKIP_ARCHIVED_LOGS=True/False`         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
+| `-e DEBUG=True/False`         |   (Optional) HTML version of the running goaccess.conf wihtin the container     |
 | `-e BASIC_AUTH=True/False`         |   (Optional) Defaults to False. Set to True to enable nginx basic authentication.  Docker container needs to stopped or restarted each time this flag is modified. This allows for the .htpasswd file to be changed accordingly.   |
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |

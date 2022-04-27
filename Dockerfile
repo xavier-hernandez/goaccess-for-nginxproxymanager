@@ -29,6 +29,7 @@ RUN apk add --no-cache \
     rm /etc/nginx/nginx.conf
 
 COPY --from=builder /goaccess /goaccess
+COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf
 COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
@@ -39,6 +40,7 @@ ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
 
 WORKDIR /goan
 ADD /resources/scripts/funcs funcs
+ADD /resources/scripts/debug debug
 COPY /resources/scripts/start.sh start.sh
 
 VOLUME ["/opt/log"]
