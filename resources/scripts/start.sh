@@ -3,7 +3,7 @@ source $(dirname "$0")/funcs/nginx.sh
 source $(dirname "$0")/funcs/logs.sh
 source $(dirname "$0")/funcs/debug.sh
 
-goan_version="GOAN v1.0.6"
+goan_version="GOAN v1.0.6.1"
 goan_log_path="/opt/log"
 goan_dir_valid=0 #false
 goan_container_archive_log="/goaccess-config/access_archive.log"
