@@ -52,7 +52,7 @@ goaccess:
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional
-        - EXCLUDE_IPS=127.0.0.1 #comma delimited list                
+        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited list                
     ports:
         - '7880:7880'
     volumes:
@@ -77,7 +77,7 @@ goaccess:
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional   
-        - EXCLUDE_IPS=127.0.0.1 #comma delimited 
+        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
 ```
 
 | Parameter | Function |
