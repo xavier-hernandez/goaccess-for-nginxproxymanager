@@ -1,9 +1,9 @@
 #!/bin/bash
 source $(dirname "$0")/funcs/nginx.sh
-source $(dirname "$0")/funcs/logs.sh
-source $(dirname "$0")/funcs/debug.sh
+source $(dirname "$0")/funcs/internal.sh
+source $(dirname "$0")/funcs/environment.sh
 
-goan_version="GOAN v1.0.7"
+goan_version="GOAN v1.0.8"
 goan_log_path="/opt/log"
 goan_dir_valid=0 #false
 goan_container_archive_log="/goaccess-config/access_archive.log"
@@ -28,7 +28,6 @@ if [[ -f "/goaccess-config/goaccess.conf" ]]; then
     cp /goaccess-config/goaccess.conf.bak /goaccess-config/goaccess.conf
 fi
 
-
 #Set NGINX basic authentication
 nginx_basic_auth
 
@@ -37,6 +36,9 @@ logs_load_archive ${goan_log_path}
 
 #Find active logs and check for read access
 logs_load_active ${goan_log_path}
+
+#Exclude IPs
+exclude_ips
 
 #Mods to index.html
 nginx_image_version

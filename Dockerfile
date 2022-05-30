@@ -45,4 +45,4 @@ COPY /resources/scripts/start.sh start.sh
 
 VOLUME ["/opt/log"]
 EXPOSE 7880
-CMD ["sh", "/goan/start.sh"]
+CMD ["bash", "/goan/start.sh"]
