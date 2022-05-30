@@ -18,7 +18,7 @@ The docker image scans and includes files matching the following criteria:
 
 **Dependencies:**
 - GoAccess version: 1.5.5  
-- GeoLite2-City.mmdb  (2022-04-26)
+- GeoLite2-City.mmdb  (2022-05-27)
 
 ---
 
