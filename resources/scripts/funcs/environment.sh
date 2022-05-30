@@ -9,17 +9,15 @@ function exclude_ips() {
         echo -e "\nExcluding IPs..."
         ips=""
 
+        echo $'\n' >> /goaccess-config/goaccess.conf
+        echo "#GOAN_EXCLUDE_IPS" >> /goaccess-config/goaccess.conf
         IFS=','
         read -ra ADDR <<< "$EXCLUDE_IPS"
         for ip in "${ADDR[@]}"; do
             echo ${ip}
-            ips+="exclude-ip ${ip}"$'\n'
+            echo "exclude-ip ${ip}" >> /goaccess-config/goaccess.conf
         done
         unset IFS
-      
-        echo $'\n' >> /goaccess-config/goaccess.conf
-        echo "#GOAN_EXCLUDE_IPS" >> /goaccess-config/goaccess.conf
-        echo $ips >> /goaccess-config/goaccess.conf
     fi
 }
 
