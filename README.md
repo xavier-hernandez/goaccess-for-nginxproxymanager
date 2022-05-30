@@ -51,7 +51,8 @@ goaccess:
         - DEBUG=False #optional
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
-        - BASIC_AUTH_PASSWORD=pass #optional                
+        - BASIC_AUTH_PASSWORD=pass #optional
+        - EXCLUDE_IPS=127.0.0.1 #comma delimited list                
     ports:
         - '7880:7880'
     volumes:
@@ -75,7 +76,8 @@ goaccess:
         - DEBUG=False #optional
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
-        - BASIC_AUTH_PASSWORD=pass #optional               
+        - BASIC_AUTH_PASSWORD=pass #optional   
+        - EXCLUDE_IPS=127.0.0.1 #comma delimited 
 ```
 
 | Parameter | Function |
@@ -85,6 +87,7 @@ goaccess:
 | `-e BASIC_AUTH=True/False`         |   (Optional) Defaults to False. Set to True to enable nginx basic authentication.  Docker container needs to stopped or restarted each time this flag is modified. This allows for the .htpasswd file to be changed accordingly.   |
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
+| `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
 
 Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
 
