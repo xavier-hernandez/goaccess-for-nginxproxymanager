@@ -8,8 +8,8 @@ RUN apk add --no-cache \
 
 # set up goacess
 WORKDIR /goaccess
-RUN wget https://tar.goaccess.io/goaccess-1.5.5.tar.gz
-RUN tar --strip-components=1  -xzvf goaccess-1.5.5.tar.gz
+RUN wget https://tar.goaccess.io/goaccess-1.6.tar.gz
+RUN tar --strip-components=1  -xzvf goaccess-1.6.tar.gz
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
@@ -40,7 +40,6 @@ ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
 
 WORKDIR /goan
 ADD /resources/scripts/funcs funcs
-ADD /resources/scripts/debug debug
 COPY /resources/scripts/start.sh start.sh
 
 VOLUME ["/opt/log"]

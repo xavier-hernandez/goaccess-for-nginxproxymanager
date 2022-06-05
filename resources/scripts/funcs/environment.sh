@@ -41,19 +41,22 @@ function nginx_basic_auth() {
 
 #ADD DEBUGGING
 function debug() {
+    echo -e "\nDEBUG"
+    echo "-------------------------------"
     if [[ "${DEBUG}" == "True" ]]
     then
-        echo -e "\nDEBUG - ON"
-        cp /goan/debug/goaccess_conf.html /var/www/html/goaccess_conf.html
+        proxy_config="/goaccess-config/goaccess.conf"
+        proxy_html_config="/var/www/html/goaccess_conf.html"
 
-        src="#goan_version"
-        rpl=${goan_version}
-        sed -i "s/$src/$rpl/" /var/www/html/goaccess_conf.html
-
-        sed -i -e '/#GOAN_INPUT/r /goaccess-config/goaccess.conf' /var/www/html/goaccess_conf.html
-        sed -i -e 's/#GOAN_INPUT//' /var/www/html/goaccess_conf.html
+        echo "ON"
+        echo "<!doctype html><html><head>" > ${proxy_html_config}
+        echo "<title>GoAccess for Nginx Proxy Manager Logs - ${goan_version}</title>" >> ${proxy_html_config}
+        echo "<style>body{font-family:Arial,sans-serif;}code{white-space:pre-wrap;}</style>" >> ${proxy_html_config}
+        echo "</head><body><code>" >> ${proxy_html_config}
+        cat  ${proxy_config} >> ${proxy_html_config}
+        echo "</code></body></html>" >> ${proxy_html_config}
     else
-        echo "DEBUG - OFF"
+        echo -e "OFF"
     fi
 }
 
