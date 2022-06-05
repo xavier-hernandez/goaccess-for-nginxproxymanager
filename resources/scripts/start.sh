@@ -1,5 +1,4 @@
 #!/bin/bash
-source $(dirname "$0")/funcs/nginx.sh
 source $(dirname "$0")/funcs/internal.sh
 source $(dirname "$0")/funcs/environment.sh
 

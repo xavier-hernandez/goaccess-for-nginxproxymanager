@@ -2,11 +2,12 @@
 
 #Exclude IPs
 function exclude_ips() {
+    echo -e "\nEXCLUDE_IPS"
+    echo "-------------------------------"    
     if [[ -z "${EXCLUDE_IPS}" ]]
     then
-        //no excluded ips
+        echo "None"
     else
-        echo -e "\nExcluding IPs..."
         ips=""
 
         echo $'\n' >> /goaccess-config/goaccess.conf
@@ -23,6 +24,8 @@ function exclude_ips() {
 
 #Set NGINX basic authentication
 function nginx_basic_auth() {
+    echo -e "\nNGINX BASIC AUTH"
+    echo "-------------------------------"
     if [[ "${BASIC_AUTH}" == "True" ]]
     then
         echo "Setting up basic auth in NGINX..."
@@ -35,8 +38,12 @@ function nginx_basic_auth() {
             sed -i "s/$nginx_auth_basic_s/$nginx_auth_basic_r/" /etc/nginx/nginx.conf
 
             htpasswd -b /opt/auth/.htpasswd $BASIC_AUTH_USERNAME $BASIC_AUTH_PASSWORD
+            echo "Done"
         fi
+    else
+        echo "None"
     fi
+
 }
 
 #ADD DEBUGGING
