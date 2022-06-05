@@ -13,8 +13,7 @@ This docker container should work out of the box with Nginx Proxy Manager to par
 The docker image scans and includes files matching the following criteria: 
 * proxy-host-*_access.log.gz
 * proxy-host-*_access.log
-* proxy-host-*.log
-* proxy_host-*.log
+* proxy\*host-*.log
 
 **Dependencies:**
 - GoAccess version: 1.6.0 
