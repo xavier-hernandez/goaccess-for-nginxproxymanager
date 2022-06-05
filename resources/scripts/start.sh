@@ -12,6 +12,8 @@ goan_container_proxy_logs="/goaccess-config/proxy_logs"
 goan_proxy_log_count=0
 goan_proxy_archive_log_count=0
 
+goan_proxy_config="/goaccess-config/goaccess.conf"
+
 echo -e "\n${goan_version}\n"
 
 #clean up
@@ -25,7 +27,7 @@ if [[ -f "$goan_container_active_log" ]]; then
     rm ${goan_container_active_log}
 fi
 if [[ -f "/goaccess-config/goaccess.conf" ]]; then
-    cp /goaccess-config/goaccess.conf.bak /goaccess-config/goaccess.conf
+    cp /goaccess-config/goaccess.conf.bak ${goan_proxy_config}
 fi
 
 #Set NGINX basic authentication
@@ -48,11 +50,14 @@ nginx_processing_count
 tini -s -- nginx
 
 #APPEND LOG FILE NAMES TO GOACCESS CONFIG
-sed -i -e '/#GOAN_PROXY_FILES/r /goaccess-config/proxy_logs' /goaccess-config/goaccess.conf
+sed -i -e '/#GOAN_PROXY_FILES/r /goaccess-config/proxy_logs' ${goan_proxy_config}
 
 #DEBUG
 debug
 
 #RUN GOACCESS
 echo -e "\nProcessing ($((goan_proxy_log_count+goan_proxy_archive_log_count))) total log(s)...\n"
-tini -s -- /goaccess/goaccess --no-global-config --config-file=/goaccess-config/goaccess.conf
+tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_proxy_config}
+
+#Leave container running
+tail -f /dev/null
