@@ -3,6 +3,7 @@
 function set_proxy_config() {
     echo -e "\n\n\n" >> ${1}
     echo "######################################" >> ${1}
+    echo "${goan_version}" >> ${1}
     echo "# GOAN_PROXY_CONFIG" >> ${1}
     echo "######################################" >> ${1}
     echo "time-format %T" >> ${1}
