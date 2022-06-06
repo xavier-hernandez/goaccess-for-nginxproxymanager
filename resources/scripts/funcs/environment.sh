@@ -132,6 +132,6 @@ function load_proxy_logs() {
     echo "<meta http-equiv=\"refresh\" content=\"1\" >" >> ${4}
     echo "<style>body {font-family: Arial, sans-serif;}</style>" >> ${4}
     echo "</head><body><p><b>${goan_version}</b><br/><br/>loading... <br/><br/>" >> ${4}
-    echo "Logs processing: ${goan_proxy_log_count}+${goan_proxy_archive_log_count} (might take some time depending on the number of files to parse)" >> ${4 }
+    echo "Logs processing: ${goan_proxy_log_count}+${goan_proxy_archive_log_count} (might take some time depending on the number of files to parse)" >> ${4}
     echo "<br/></p></body></html>" >> ${4}
 }
