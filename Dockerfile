@@ -29,7 +29,6 @@ RUN apk add --no-cache \
     rm /etc/nginx/nginx.conf
 
 COPY --from=builder /goaccess /goaccess
-COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf
 COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
