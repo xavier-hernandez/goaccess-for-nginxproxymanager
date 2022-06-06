@@ -2,7 +2,7 @@
 
 #Exclude IPs
 function exclude_ips() {
-    echo -e "\nEXCLUDE_IPS"
+    echo -e "\nEXCLUDE IPS"
     echo "-------------------------------"    
     if [[ -z "${EXCLUDE_IPS}" ]]
     then

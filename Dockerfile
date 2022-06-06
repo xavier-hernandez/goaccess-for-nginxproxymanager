@@ -33,7 +33,6 @@ COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf
 COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
 # set up nginx
-COPY /resources/nginx/index.html /var/www/html/index.html
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
 
