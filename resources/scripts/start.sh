@@ -31,28 +31,6 @@ fi
 # END OF CLEAN UP
 
 # BEGIN PROXY LOGS
-<<<<<<< HEAD
-if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"]]
-then
-    goan_proxy_archive_log="/goaccess-config/access_archive.log"
-    if [[ -f ${goan_proxy_archive_log} ]]; then
-        rm ${goan_proxy_archive_log}
-    fi
-
-    set_npm_proxy_config ${goan_config}
-    load_proxy_logs ${goan_log_path} ${goan_config} ${goan_proxy_archive_log} ${nginx_html}
-
-    if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
-        #redirection logging
-        goan_redirection_config="/goaccess-config/goaccess_redirection.conf"
-        cp /goaccess-config/goaccess.conf.bak ${goan_redirection_config}
-
-        set_npm_redirection_config ${goan_redirection_config}
-        load_proxy_logs ${goan_log_path} ${goan_redirection_config} ${goan_proxy_archive_log} ${nginx_html}
-   fi
-elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]
-then
-=======
 if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" ]]; then
     goan_proxy_archive_log="/goaccess-config/access_archive.log"
     if [[ -f ${goan_proxy_archive_log} ]]; then
@@ -62,7 +40,6 @@ if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" ]]; then
     set_npm_proxy_config ${goan_config}
     load_proxy_logs ${goan_log_path} ${goan_config} ${goan_proxy_archive_log} ${nginx_html}
 elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
->>>>>>> v1.1.0
     set_traefik_config ${goan_config}
     load_traefik_logs ${goan_log_path} ${goan_config} ${nginx_html}
 fi
@@ -80,14 +57,6 @@ tini -s -- nginx
 #RUN GOACCESS
 echo -e "\nRUN MAIN GOACCESS"
 tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
-<<<<<<< HEAD
-
-#RUN SECOND GOACCESS
-if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_redirection_config}
-fi
-=======
->>>>>>> v1.1.0
 
 #Leave container running
 tail -f /dev/null
