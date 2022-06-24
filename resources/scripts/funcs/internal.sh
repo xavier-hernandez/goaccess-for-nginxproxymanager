@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function set_proxy_config() {
+function set_npm_proxy_config() {
     echo -e "\n\n\n" >> ${1}
     echo "######################################" >> ${1}
     echo "# ${goan_version}" >> ${1}
@@ -11,7 +11,6 @@ function set_proxy_config() {
     echo "log_format [%d:%t %^] %^ %^ %s - %m %^ %v \"%U\" [Client %h] [Length %b] [Gzip %^] [Sent-to %^] \"%u\" \"%R\"" >> ${1}
     echo "real-time-html true" >> ${1}
     echo "output /var/www/html/index.html" >> ${1}
-    echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
 }
 
 function set_traefik_config() {
@@ -25,5 +24,8 @@ function set_traefik_config() {
     echo "log-format %h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm" >> ${1}
     echo "real-time-html true" >> ${1}
     echo "output /var/www/html/index.html" >> ${1}
+}
+
+function set_geoip_database() {
     echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
 }
