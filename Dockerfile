@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 FROM alpine:3.15.4 AS builder
+=======
+FROM alpine:3.16.0 AS builder
+>>>>>>> v1.1.0
 
 RUN apk add --no-cache \
         build-base \
@@ -14,7 +18,11 @@ RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
 
+<<<<<<< HEAD
 FROM alpine:3.15.4
+=======
+FROM alpine:3.16.0
+>>>>>>> v1.1.0
 RUN apk add --no-cache \
         bash \
         nginx \
