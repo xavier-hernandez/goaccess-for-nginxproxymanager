@@ -51,7 +51,8 @@ goaccess:
         - BASIC_AUTH=False #optional
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional
-        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited list                
+        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited list    
+        - LOG_TYPE=NPM #optional - more information below            
     ports:
         - '7880:7880'
     volumes:
@@ -77,6 +78,7 @@ goaccess:
         - BASIC_AUTH_USERNAME=user #optional
         - BASIC_AUTH_PASSWORD=pass #optional   
         - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
+        - LOG_TYPE=NPM #optional - more information below
 ```
 
 | Parameter | Function |
