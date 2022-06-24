@@ -17,7 +17,7 @@ The docker image scans and includes files matching the following criteria:
 
 **Dependencies:**
 - GoAccess version: 1.6.0 
-- GeoLite2-City.mmdb  (2022-05-27)
+- GeoLite2-City.mmdb  (2022-06-24)
 
 ---
 
@@ -82,11 +82,24 @@ goaccess:
 | Parameter | Function |
 |-----------|----------|
 | `-e SKIP_ARCHIVED_LOGS=True/False`         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
-| `-e DEBUG=True/False`         |   (Optional) HTML version of the running goaccess.conf wihtin the container     |
+| `-e DEBUG=True/False`         |   (Optional) HTML version of the running goaccess.conf within the container     |
 | `-e BASIC_AUTH=True/False`         |   (Optional) Defaults to False. Set to True to enable nginx basic authentication.  Docker container needs to stopped or restarted each time this flag is modified. This allows for the .htpasswd file to be changed accordingly.   |
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs, however it can now read TRAEFIK as well. Options are: NPM, TRAEFIK|
+
+# **Additional envirnoment information**  
+` -e LOG_TYPE=`  
+- Options: 
+  - NPM (or leave empty)
+    - The following file(s) are read and parsed.
+      - proxy-host-*_access.log.gz
+      - proxy-host-*_access.log
+      - proxy*host-*.log
+  - TRAEFIK
+    - The following file(s) are read and parsed. The SKIP_ARCHIVED_LOGS flag will be ignored.
+      - access.log
 
 Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
 
