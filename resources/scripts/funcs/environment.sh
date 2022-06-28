@@ -188,3 +188,108 @@ function load_traefik_logs() {
     echo "Logs processing: $(($goan_proxy_log_count)) (might take some time depending on the number of files to parse)" >> ${3}
     echo "<br/></p></body></html>" >> ${3}
 }
+
+#ADD REDIRECTION LOGS
+function redirection_logs() {
+    archive_log="/goaccess-config/redirection_archive.log"
+    active_log="/goaccess-config/redirection_active.log"
+    conf="/goaccess-config/goaccess-redirection.conf"
+
+    #clean up
+    if [[ -f "$archive_log" ]]; then
+        rm ${archive_log}
+    fi
+    if [[ -f "$active_log" ]]; then
+        rm ${active_log}
+    fi
+
+    #console info
+    echo $'\n'
+    echo "Redirection Logs"
+    echo "----------------------------------------"
+
+    SKIP_ARCHIVED_LOGS="False"
+
+    #create the log file and add to the conf
+    touch ${archive_log}
+    touch ${active_log}
+    echo $'\n' >> ${conf}
+    echo "#GOAN_LOG_FILES" >> ${conf}
+    echo "log-file ${archive_log}" >> ${conf}
+    echo "log-file ${active_log}" >> ${conf}
+
+    goan_active_count=0
+    
+    #check directory access
+    if [[ -d "${1}" && -x "${1}" ]];
+    then
+        if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
+        then
+            echo "Skipping archived logs as requested..."
+        else
+            goan_archive_count=`ls -1 ${1}/redirection-host-*_access.log*.gz  2> /dev/null | wc -l`
+        
+            if [ $goan_archive_count != 0 ]
+            then 
+                echo "Adding redirection archive logs..."
+
+                IFS=$'\n'
+                for file in $(find "${1}" -name 'redirection-host-*_access.log*.gz' ! -name "*_error.log");
+                do
+                    if [ -f $file ]
+                    then
+                        if [ -r $file ] && R="Read = yes" || R="Read = No"
+                        then
+                            echo -ne ' \t '
+                            echo "Filename: $file | $R"
+                        else
+                            echo -ne ' \t '
+                            echo "Filename: $file | $R"
+                        fi
+                    else
+                        echo -ne ' \t '
+                        echo "Filename: $file | Not a file"
+                    fi
+                done
+                unset IFS
+
+                echo "Added (${goan_archive_count}) redirection archived logs from ${1}..."
+                zcat -f ${1}/redirection-host-*_access.log*.gz > ${archive_log}
+            else
+                echo "No archived logs found at ${1}..."
+            fi
+        fi
+
+        IFS=$'\n'
+        for file in $(find "${1}" -name 'redirection-host-*.log' ! -name "*_error.log");
+        do
+            if [ $goan_active_count == 0 ]; then
+                echo "Adding redirection active logs..."
+            fi
+            if [ -f $file ]
+            then
+                if [ -r $file ] && R="Read = yes" || R="Read = No"
+                then
+                    echo "log-file ${file}" >> ${conf}
+                    echo -ne ' \t '
+                    echo "Filename: $file | $R"
+                    goan_active_count=$((goan_active_count+1))
+                else
+                    echo -ne ' \t '
+                    echo "Filename: $file | $R"
+                fi
+            else
+                echo -ne ' \t '
+                echo "Filename: $file | Not a file"
+            fi
+        done
+        unset IFS
+    else
+        echo "Problem loading directory (check directory or permissions)... ${1}"
+    fi
+
+    if [ $goan_active_count != 0 ]
+    then
+        echo "Added (${goan_active_count}) redirection active logs from ${1}..."
+    fi
+}
