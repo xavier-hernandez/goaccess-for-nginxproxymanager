@@ -58,5 +58,11 @@ tini -s -- nginx
 echo -e "\nRUN MAIN GOACCESS"
 tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
 
+if [[ "${LOG_TYPE}" == "NPM-R" ]]; then
+    echo 'Starting redirection log instance'
+    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=/goaccess-config/goaccess-redirection.conf
+fi
+
+
 #Leave container running
 tail -f /dev/null
