@@ -103,7 +103,17 @@ goaccess:
     - The following file(s) are read and parsed. The SKIP_ARCHIVED_LOGS flag will be ignored.
       - access.log
 
-Thanks to https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
+# **Possible Issues** 
+- A lot of CPU Usage and 10000 request every second in webUI
+  - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38
 
+# **Thanks**
+To https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
+
+Users:
+- Just5KY
+- martadinata666 
+
+# **Disclaimer** 
 This product includes GeoLite2 data created by MaxMind, available from
 <a href="https://www.maxmind.com">https://www.maxmind.com</a>.
