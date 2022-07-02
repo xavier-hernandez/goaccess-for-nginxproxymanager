@@ -1,31 +1,41 @@
 #!/bin/bash
 function npm_init(){
-    mkdir -p "/goaccess-config/npm/"
     goan_config="/goaccess-config/goaccess.conf"
     nginx_html="/var/www/html/index.html"
     html_config="/var/www/html/goaccess_conf.html"
-    archive_log="/goaccess-config/npm/archive.log"
-    active_log="/goaccess-config/npm/active.log"
-}
+    archive_log="/goaccess-config/archive.log"
+    active_log="/goaccess-config/active.log"
 
-function npm_instance(){
-    echo -e "\nRUN NPM GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
-}
-function npm_cleanup(){
-    cp /goaccess-config/goaccess.conf.bak ${goan_config}
+    if [[ -f ${goan_config} ]]; then
+        rm ${goan_config}
+    else
+        mkdir -p "/goaccess-config/"
+        cp /goaccess-config/goaccess.conf.bak ${goan_config}
+    fi
     if [[ -f ${nginx_html} ]]; then
         rm ${nginx_html}
+    else
+        mkdir -p "/var/www/html/"
+        touch ${nginx_html}
     fi
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
     if [[ -f "$archive_log" ]]; then
         rm ${archive_log}
+    else
+        touch ${archive_log}
     fi
     if [[ -f "$active_log" ]]; then
         rm ${active_log}
+    else
+        touch ${active_log}
     fi
+}
+
+function npm_instance(){
+    echo -e "\nRUN NPM GOACCESS"
+    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
 }
 
 function npm_goaccess_config(){
@@ -37,20 +47,18 @@ function npm_goaccess_config(){
     echo "time-format %T" >> ${goan_config}
     echo "date-format %d/%b/%Y" >> ${goan_config}
     echo "log_format [%d:%t %^] %^ %^ %s - %m %^ %v \"%U\" [Client %h] [Length %b] [Gzip %^] [Sent-to %^] \"%u\" \"%R\"" >> ${goan_config}
+    echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
 }
 
 function npm(){
     npm_init
-    npm_cleanup
     npm_goaccess_config
 
     echo -e "\nLOADING NPM PROXY LOGS"
     echo "-------------------------------"
 
-    touch ${archive_log}
-    touch ${active_log}
     echo $'\n' >> ${goan_config}
     echo "#GOAN_NPM_LOG_FILES" >> ${goan_config}
     echo "log-file ${archive_log}" >> ${goan_config}

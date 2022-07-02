@@ -1,31 +1,41 @@
 #!/bin/bash
 function npm_redirect_init(){
-    mkdir -p "/goaccess-config/npm-redirect/"
-    goan_config="/goaccess-config/npm-redirect/goaccess.conf"
-    nginx_html="/var/www/html/npm-redirect/index.html"
-    html_config="/var/www/html/npm-redirect/goaccess_conf.html"
-    archive_log="/goaccess-config/npm-redirect/archive.log"
-    active_log="/goaccess-config/npm-redirect/active.log"
-}
+    goan_config="/goaccess-config/redirection/goaccess.conf"
+    nginx_html="/var/www/html/redirection/index.html"
+    html_config="/var/www/html/redirection/goaccess_conf.html"
+    archive_log="/goaccess-config/redirection/archive.log"
+    active_log="/goaccess-config/redirection/active.log"
 
-function npm_redirect_instance(){
-    echo -e "\nRUN NPM REDIRECT GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
-}
-function npm_redirect_cleanup(){
-    cp /goaccess-config/goaccess.conf.bak ${goan_config}
+    if [[ -f ${goan_config} ]]; then
+        rm ${goan_config}
+    else
+        mkdir -p "/goaccess-config/redirection/"
+        cp /goaccess-config/goaccess.conf.bak ${goan_config}
+    fi
     if [[ -f ${nginx_html} ]]; then
         rm ${nginx_html}
+    else
+        mkdir -p "/var/www/html/redirection/"
+        touch ${nginx_html}
     fi
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
     if [[ -f "$archive_log" ]]; then
         rm ${archive_log}
+    else
+        touch ${archive_log}
     fi
     if [[ -f "$active_log" ]]; then
         rm ${active_log}
+    else
+        touch ${active_log}
     fi
+}
+
+function npm_redirect_instance(){
+    echo -e "\nRUN NPM REDIRECT GOACCESS"
+    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
 }
 
 function npm_redirect_goaccess_config(){
@@ -37,20 +47,18 @@ function npm_redirect_goaccess_config(){
     echo "time-format %T" >> ${goan_config}
     echo "date-format %d/%b/%Y" >> ${goan_config}
     echo "log_format [%d:%t %^] %s - %m %^ %v \"%U\" [Client %h] [Length %b] [Gzip %^] \"%u\" \"%R\"" >> ${goan_config}
+    echo "port 7891" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
 }
 
 function npm_redirect(){
     npm_redirect_init
-    npm_redirect_cleanup
     npm_redirect_goaccess_config
 
     echo -e "\nLOADING REDIRECTION LOGS"
     echo "-------------------------------"
 
-    touch ${archive_log}
-    touch ${active_log}
     echo $'\n' >> ${goan_config}
     echo "#GOAN_REDIRECTION_LOG_FILES" >> ${goan_config}
     echo "log-file ${archive_log}" >> ${goan_config}
