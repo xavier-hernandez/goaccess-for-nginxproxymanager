@@ -51,7 +51,7 @@ function debug() {
     echo -e "\nDEBUG"
     echo "-------------------------------"
     if [[ "${DEBUG}" == "True" ]]
-    then
+    then    
         echo "ON"
         echo "<!doctype html><html><head>" > ${2}
         echo "<title>GOAN - ${goan_version}</title>" >> ${2}
@@ -70,6 +70,6 @@ function set_geoip_database() {
     echo "DEFAULT"
     
     echo $'\n' >> ${1}
-    echo "#GOAN_EXCLUDE_IPS" >> ${1}
+    echo "#GOAN_MAXMIND_DB" >> ${1}
     echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
 }

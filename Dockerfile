@@ -42,5 +42,6 @@ ADD /resources/scripts/logs logs
 COPY /resources/scripts/start.sh start.sh
 
 VOLUME ["/opt/log"]
+VOLUME ["/opt/custom"]
 EXPOSE 7880
 CMD ["bash", "/goan/start.sh"]
