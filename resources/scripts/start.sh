@@ -23,11 +23,11 @@ tini -s -- nginx
 ### NGINX
 
 # BEGIN PROXY LOGS
-if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM-R" ]]; then
+if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R" ]]; then
     echo -e "\n\nNPM INSTANCE SETTING UP..."
     npm
     
-    if [[ "${LOG_TYPE}" == "NPM-R" ]]; then
+    if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
         echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
         npm_redirect
     fi

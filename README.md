@@ -85,7 +85,7 @@ goaccess:
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
-| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM-R, TRAEFIK. More information below.|
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK. More information below.|
 
 # **Additional environment information**  
 ` -e LOG_TYPE=`  
@@ -107,7 +107,7 @@ goaccess:
       - proxy-host-*_access.log.gz
       - proxy-host-*_access.log
       - proxy\*host-*.log
-  - NPM-R
+  - NPM+R
     - a second instance of GOACCESS is created
     - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
     - the following file(s) are read and parsed.
