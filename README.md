@@ -11,7 +11,11 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 **Dependencies:**
 - GoAccess version: 1.6.0 
+<<<<<<< HEAD
+- GeoLite2-City.mmdb  (2022-06-24)
+=======
 - GeoLite2-City.mmdb  (2022-07-01)
+>>>>>>> develop
 
 ---
 
@@ -72,9 +76,12 @@ goaccess:
         - BASIC_AUTH_PASSWORD=pass #optional   
         - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
         - LOG_TYPE=NPM #optional - more information below
+<<<<<<< HEAD
+=======
     volumes:
         - /path/to/host/nginx/logs:/opt/log
         - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
+>>>>>>> develop
 ```
 
 | Parameter | Function |
@@ -85,6 +92,22 @@ goaccess:
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
+<<<<<<< HEAD
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs, however it can now read TRAEFIK as well. Options are: NPM, TRAEFIK|
+
+# **Additional envirnoment information**  
+` -e LOG_TYPE=`  
+- Options: 
+  - NPM (or leave empty)
+    - The following file(s) are read and parsed.
+      - proxy-host-*_access.log.gz
+      - proxy-host-*_access.log
+      - proxy*host-*.log
+  - TRAEFIK
+    - The following file(s) are read and parsed. The SKIP_ARCHIVED_LOGS flag will be ignored.
+      - access.log
+
+=======
 | `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK. More information below.|
 
 # **Additional environment information**  
@@ -141,6 +164,7 @@ date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
 ```
 
+>>>>>>> develop
 # **Possible Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38
