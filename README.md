@@ -1,4 +1,4 @@
-# GoAccess for Nginx Proxy Manager Logs
+# GoAccess for Nginx Proxy Manager Logs (and TRAEFIK and CUSTOM)
 
 Still in development... You might need to wait a bit if you have a large amount of logs for it to parse.
 
@@ -8,16 +8,14 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 New to creating docker images so bear with me. I did this more for me then for public consumption but it appears to work so maybe someone might find it useful.
 
-This docker container should work out of the box with Nginx Proxy Manager to parse proxy logs. The goaccess.conf has been configured to only access proxy logs and archived proxy logs.
-
-The docker image scans and includes files matching the following criteria: 
-* proxy-host-*_access.log.gz
-* proxy-host-*_access.log
-* proxy\*host-*.log
 
 **Dependencies:**
 - GoAccess version: 1.6.0 
+<<<<<<< HEAD
 - GeoLite2-City.mmdb  (2022-06-24)
+=======
+- GeoLite2-City.mmdb  (2022-07-01)
+>>>>>>> develop
 
 ---
 
@@ -57,6 +55,7 @@ goaccess:
         - '7880:7880'
     volumes:
         - /path/to/host/nginx/logs:/opt/log
+        - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
@@ -64,8 +63,6 @@ goaccess:
     image: xavierh/goaccess-for-nginxproxymanager:latest
     container_name: goaccess
     restart: always
-    volumes:
-        - /path/to/host/nginx/logs:/opt/log
     ports:
         - '7880:7880'
     environment:
@@ -79,6 +76,12 @@ goaccess:
         - BASIC_AUTH_PASSWORD=pass #optional   
         - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
         - LOG_TYPE=NPM #optional - more information below
+<<<<<<< HEAD
+=======
+    volumes:
+        - /path/to/host/nginx/logs:/opt/log
+        - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
+>>>>>>> develop
 ```
 
 | Parameter | Function |
@@ -89,6 +92,7 @@ goaccess:
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
+<<<<<<< HEAD
 | `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs, however it can now read TRAEFIK as well. Options are: NPM, TRAEFIK|
 
 # **Additional envirnoment information**  
@@ -103,6 +107,64 @@ goaccess:
     - The following file(s) are read and parsed. The SKIP_ARCHIVED_LOGS flag will be ignored.
       - access.log
 
+=======
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK. More information below.|
+
+# **Additional environment information**  
+` -e LOG_TYPE=`  
+- Options:
+  - CUSTOM
+    - this feature will load your own configuration
+    - an additional volume must be included
+      - /path/to/host/custom:/opt/custom
+    - volume should include
+        - goaccess.conf
+          - this is your custom config
+          - container will exit if no file is found
+          - leave the default port number at 7890
+    - environment parameters that will not work and will be ignored
+      - SKIP_ARCHIVED_LOGS
+      - EXCLUDE_IPS
+  - NPM (default if variable is empty or not included)
+    - the following file(s) are read and parsed.
+      - proxy-host-*_access.log.gz
+      - proxy-host-*_access.log
+      - proxy\*host-*.log
+  - NPM+R
+    - a second instance of GOACCESS is created
+    - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
+    - the following file(s) are read and parsed.
+      - redirection\*host-*.log*.gz
+      - redirection\*host-*.log
+  - TRAEFIK
+    - environment parameters that will not work and will be ignored
+      - SKIP_ARCHIVED_LOGS
+    - the following file(s) are read and parsed.
+      - access.log
+
+
+# **LOG FORMATS**
+### NPM PROXY LOG FORMAT
+```
+time-format %T
+date-format %d/%b/%Y
+log_format [%d:%t %^] %^ %^ %s - %m %^ %v "%U" [Client %h] [Length %b] [Gzip %^] [Sent-to %^] "%u" "%R"
+```
+
+### NPM REDIRECTION LOG FORMAT
+```
+time-format %T
+date-format %d/%b/%Y
+log_format [%d:%t %^] %s - %m %^ %v "%U" [Client %h] [Length %b] [Gzip %^] "%u" "%R"
+```
+### TRAEFIK ACCESS LOG FORMAT
+```
+time-format %T
+date-format %d/%b/%Y
+log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
+```
+
+>>>>>>> develop
 # **Possible Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38

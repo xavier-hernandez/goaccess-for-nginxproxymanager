@@ -51,7 +51,7 @@ function debug() {
     echo -e "\nDEBUG"
     echo "-------------------------------"
     if [[ "${DEBUG}" == "True" ]]
-    then
+    then    
         echo "ON"
         echo "<!doctype html><html><head>" > ${2}
         echo "<title>GOAN - ${goan_version}</title>" >> ${2}
@@ -64,70 +64,12 @@ function debug() {
     fi
 }
 
-#Find active logs and check for read access
-function load_proxy_logs() {
-    echo -e "\nLOADING ACTIVE PROXY LOGS"
+function set_geoip_database() {
+    echo -e "\nSetting GeoIP Database"
     echo "-------------------------------"
-
-    goan_proxy_log_count=0
-    goan_proxy_archive_log_count=0
-
-    echo -e "\n#GOAN_PROXY_FILES" >> ${2}
-    if [[ -d "${1}" && -x "${1}" ]];
-    then
-        IFS=$'\n'
-        for file in $(find "${1}" -name 'proxy*host-*.log' ! -name "*_error.log");
-        do
-            if [ -f $file ]
-            then
-                if [ -r $file ] && R="Read = yes" || R="Read = No"
-                then
-                    echo "log-file ${file}" >> ${2}
-                    goan_proxy_log_count=$((goan_proxy_log_count+1))
-                    echo "Filename: $file | $R"
-                else
-                    echo "Filename: $file | $R"
-                fi
-            else
-                echo "Filename: $file | Not a file"
-            fi
-        done
-        unset IFS
-    else
-        echo "Problem loading directory (check directory or permissions)... ${1}"
-    fi
-
-    if [ $goan_proxy_log_count != 0 ]
-    then
-        echo "Found (${goan_proxy_log_count}) proxy logs..."
-    fi
-
-    echo -e "\nSKIP ARCHIVED LOGS"
-    echo "-------------------------------"
-
-    echo -e "\n#GOAN_ARCHIVE_PROXY_FILES" >> ${2}
-    if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
-    then
-        echo "True"
-    else
-        echo "False"
-        if [[ -d "${1}" && -x "${1}" ]];
-        then
-            count=`ls -1 ${1}/proxy-host-*_access.log*.gz 2> /dev/null | wc -l`
-            if [ $count != 0 ]
-            then 
-                echo "Loading (${count}) archived logs from ${1}..."
-                zcat -f ${1}/proxy-host-*_access.log*.gz > ${3}
-                echo  "log-file ${3}" >> ${2}
-                goan_proxy_archive_log_count=${count}
-            else
-                echo "No archived logs found at ${1}..."
-            fi
-        else
-            echo "Problem loading directory (check directory or permissions)... ${1}"
-        fi
-    fi
+    echo "DEFAULT"
     
+<<<<<<< HEAD
     echo "<!doctype html><html><head>" > ${4}
     echo "<title>GOAN - ${goan_version}</title>" >> ${4}
     echo "<meta http-equiv=\"refresh\" content=\"1\" >" >> ${4}
@@ -187,4 +129,9 @@ function load_traefik_logs() {
     echo "</head><body><p><b>${goan_version}</b><br/><br/>loading... <br/><br/>" >> ${3}
     echo "Logs processing: $(($goan_proxy_log_count)) (might take some time depending on the number of files to parse)" >> ${3}
     echo "<br/></p></body></html>" >> ${3}
+=======
+    echo $'\n' >> ${1}
+    echo "#GOAN_MAXMIND_DB" >> ${1}
+    echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
+>>>>>>> develop
 }

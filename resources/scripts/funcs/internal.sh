@@ -1,5 +1,6 @@
 #!/bin/bash
 
+<<<<<<< HEAD
 function set_npm_proxy_config() {
     echo -e "\n\n\n" >> ${1}
     echo "######################################" >> ${1}
@@ -29,3 +30,5 @@ function set_traefik_config() {
 function set_geoip_database() {
     echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
 }
+=======
+>>>>>>> develop

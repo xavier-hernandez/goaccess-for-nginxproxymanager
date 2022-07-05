@@ -1,20 +1,29 @@
 #!/bin/bash
 source $(dirname "$0")/funcs/internal.sh
 source $(dirname "$0")/funcs/environment.sh
+source $(dirname "$0")/logs/npm.sh
+source $(dirname "$0")/logs/npm_redirection.sh
+source $(dirname "$0")/logs/traefik.sh
+source $(dirname "$0")/logs/custom.sh
 
+<<<<<<< HEAD
 goan_version="GOAN v1.1.0"
+=======
+goan_version="GOAN v1.1.1"
+>>>>>>> develop
 goan_log_path="/opt/log"
 
 echo -e "\n${goan_version}\n"
 
-#Set NGINX basic authentication
+### NGINX
+echo -e "\nNGINX SETUP..."
 nginx_basic_auth
 
-# SETUP HTML FOLDER FOR NGINX
 if [[ ! -d "/var/www/html" ]]; then
     mkdir /var/www/html
 fi
 
+<<<<<<< HEAD
 # CLEAN UP
 goan_config="/goaccess-config/goaccess.conf"
 cp /goaccess-config/goaccess.conf.bak ${goan_config}
@@ -58,5 +67,26 @@ tini -s -- nginx
 echo -e "\nRUN MAIN GOACCESS"
 tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
 
+=======
+tini -s -- nginx
+### NGINX
+
+# BEGIN PROXY LOGS
+if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R" ]]; then
+    echo -e "\n\nNPM INSTANCE SETTING UP..."
+    npm
+    
+    if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
+        echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
+        npm_redirect
+    fi
+elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
+    traefik
+elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then
+    custom
+fi
+# END PROXY LOGS
+
+>>>>>>> develop
 #Leave container running
 tail -f /dev/null
