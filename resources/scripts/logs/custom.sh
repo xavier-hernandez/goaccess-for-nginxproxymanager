@@ -18,6 +18,15 @@ function custom_init(){
 
     if [[ -f ${goan_config} ]]; then
         echo -e "goaccess.conf file found"
+        if [[ "${DEBUG}" == "True" ]]; then
+            echo -e "\n**************BEGIN DEBUG***********************"
+            echo -e "${goan_config} file permissions"
+            stat -L -c "%a %G %U" ${goan_config}
+            echo -e "\n"
+            echo -e "${goan_config} content"
+            cat ${goan_config}
+            echo -e "**************END DEBUG***********************\n"
+        fi
         if [[ -r ${goan_config} ]]; then
             echo -e "goaccess.conf readable"
         else
