@@ -31,7 +31,7 @@ function custom_init(){
             echo -e "goaccess.conf readable"
         else
             echo -e "goaccess.conf not readable"
-            exit
+            #exit
         fi
     else
         echo -e "goaccess.conf not found"
