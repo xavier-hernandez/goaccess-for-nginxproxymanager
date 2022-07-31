@@ -144,6 +144,8 @@ log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
 # **Possible Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38
+- If your using NPM to proxy the container you need to turn on websockets support
+  - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/69
 
 # **Thanks**
 To https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
