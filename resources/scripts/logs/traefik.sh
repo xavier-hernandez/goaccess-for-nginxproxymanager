@@ -35,7 +35,7 @@ function traefik_init(){
 
 function traefik_instance(){
     echo -e "\nRUN TRAEFIK GOACCESS"
-    tini -s -- /goaccess/goaccess --no-global-config --config-file=${goan_config}
+    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
 }
 
 function traefik_goaccess_config(){

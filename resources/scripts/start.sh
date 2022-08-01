@@ -6,7 +6,7 @@ source $(dirname "$0")/logs/npm_redirection.sh
 source $(dirname "$0")/logs/traefik.sh
 source $(dirname "$0")/logs/custom.sh
 
-goan_version="GOAN v1.1.2"
+goan_version="GOAN v1.1.3"
 goan_log_path="/opt/log"
 
 echo -e "\n${goan_version}\n"
@@ -39,4 +39,4 @@ fi
 # END PROXY LOGS
 
 #Leave container running
-tail -f /dev/null
+wait -n
