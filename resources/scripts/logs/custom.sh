@@ -41,7 +41,7 @@ function custom_init(){
 
 function custom_instance(){
     echo -e "\nRUN CUSTOM GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
+    tini -s -- /goaccess/goaccess --no-global-config --config-file=${goan_config}
 }
 
 function custom(){

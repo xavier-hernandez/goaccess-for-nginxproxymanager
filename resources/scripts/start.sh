@@ -24,13 +24,13 @@ tini -s -- nginx
 
 # BEGIN PROXY LOGS
 if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R" ]]; then
-    echo -e "\n\nNPM INSTANCE SETTING UP..."
-    npm
-    
     if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
         echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
         npm_redirect
     fi
+    
+    echo -e "\n\nNPM INSTANCE SETTING UP..."
+    npm
 elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
     traefik
 elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then

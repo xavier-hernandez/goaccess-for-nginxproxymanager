@@ -35,7 +35,7 @@ function npm_init(){
 
 function npm_instance(){
     echo -e "\nRUN NPM GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
+    tini -s -- /goaccess/goaccess --no-global-config --config-file=${goan_config}
 }
 
 function npm_goaccess_config(){
