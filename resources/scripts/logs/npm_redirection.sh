@@ -35,7 +35,7 @@ function npm_redirect_init(){
 
 function npm_redirect_instance(){
     echo -e "\nRUN NPM REDIRECT GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
+    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
 }
 
 function npm_redirect_goaccess_config(){

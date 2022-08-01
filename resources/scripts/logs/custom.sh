@@ -18,11 +18,20 @@ function custom_init(){
 
     if [[ -f ${goan_config} ]]; then
         echo -e "goaccess.conf file found"
+        if [[ "${DEBUG}" == "True" ]]; then
+            echo -e "\n**************BEGIN DEBUG***********************"
+            echo -e "${goan_config} file permissions"
+            stat -L -c "%a %G %U" ${goan_config}
+            echo -e "\n"
+            echo -e "${goan_config} content"
+            cat ${goan_config}
+            echo -e "**************END DEBUG***********************\n"
+        fi
         if [[ -r ${goan_config} ]]; then
             echo -e "goaccess.conf readable"
         else
             echo -e "goaccess.conf not readable"
-            exit
+            #exit
         fi
     else
         echo -e "goaccess.conf not found"
@@ -32,7 +41,7 @@ function custom_init(){
 
 function custom_instance(){
     echo -e "\nRUN CUSTOM GOACCESS"
-    tini -s -- /goaccess/goaccess --daemonize --no-global-config --config-file=${goan_config}
+    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
 }
 
 function custom(){
