@@ -6,8 +6,12 @@ source $(dirname "$0")/logs/npm_redirection.sh
 source $(dirname "$0")/logs/traefik.sh
 source $(dirname "$0")/logs/custom.sh
 
-goan_version="GOAN v1.1.3"
+goan_version="GOAN v1.1.4"
 goan_log_path="/opt/log"
+
+goaccess_ping_interval=15
+goaccess_debug_file=/goaccess-logs/goaccess.debug
+goaccess_invalid_file=/goaccess-logs/goaccess.invalid
 
 echo -e "\n${goan_version}\n"
 

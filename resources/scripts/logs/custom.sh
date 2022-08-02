@@ -39,11 +39,6 @@ function custom_init(){
     fi
 }
 
-function custom_instance(){
-    echo -e "\nRUN CUSTOM GOACCESS"
-    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
-}
-
 function custom(){
     custom_init
 
@@ -59,5 +54,11 @@ function custom(){
     echo "Custom instance processing: (might take some time depending on the number of files to parse)" >> ${nginx_html}
     echo "<br/></p></body></html>" >> ${nginx_html}
 
-    custom_instance
+    echo -e "\nRUN CUSTOM GOACCESS"
+    if [[ "${DEBUG}" == "True" ]]; then
+        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
+    else
+        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+    fi
+
 }
