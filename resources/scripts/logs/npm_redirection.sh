@@ -33,6 +33,7 @@ function npm_redirect_init(){
     fi
 }
 
+
 function npm_redirect_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
     echo "######################################" >> ${goan_config}
