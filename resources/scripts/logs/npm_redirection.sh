@@ -33,10 +33,6 @@ function npm_redirect_init(){
     fi
 }
 
-function npm_redirect_instance(){
-    echo -e "\nRUN NPM REDIRECT GOACCESS"
-    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
-}
 
 function npm_redirect_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
@@ -153,5 +149,10 @@ function npm_redirect(){
     echo "Logs processing: $(($goan_log_count + $goan_archive_log_count)) (might take some time depending on the number of files to parse)" >> ${nginx_html}
     echo "<br/></p></body></html>" >> ${nginx_html}
 
-    npm_redirect_instance
+    echo -e "\nRUN NPM REDIRECT GOACCESS"
+    if [[ "${DEBUG}" == "True" ]]; then
+        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
+    else
+        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+    fi
 }

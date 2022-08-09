@@ -6,10 +6,22 @@ RUN apk add --no-cache \
         ncurses-dev \
         musl-libintl
 
+# download goaccess
+WORKDIR /goaccess-temp
+RUN wget https://tar.goaccess.io/goaccess-1.6.2.tar.gz
+
+# set up goacess-debug
+WORKDIR /goaccess-debug
+RUN cp /goaccess-temp/goaccess-1.6.2.tar.gz .
+RUN tar --strip-components=1  -xzvf goaccess-1.6.2.tar.gz
+RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline --enable-debug
+RUN make
+RUN make install
+
 # set up goacess
 WORKDIR /goaccess
-RUN wget https://tar.goaccess.io/goaccess-1.6.tar.gz
-RUN tar --strip-components=1  -xzvf goaccess-1.6.tar.gz
+RUN cp /goaccess-temp/goaccess-1.6.2.tar.gz .
+RUN tar --strip-components=1  -xzvf goaccess-1.6.2.tar.gz
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
@@ -28,13 +40,18 @@ RUN apk add --no-cache \
     rm -rf /var/lib/apt/lists/* && \
     rm /etc/nginx/nginx.conf
 
+COPY --from=builder /goaccess-debug /goaccess-debug
 COPY --from=builder /goaccess /goaccess
+
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
 COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
 # set up nginx
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
 ADD /resources/nginx/.htpasswd /opt/auth/.htpasswd
+
+# goaccess logs
+WORKDIR /goaccess-logs
 
 WORKDIR /goan
 ADD /resources/scripts/funcs funcs

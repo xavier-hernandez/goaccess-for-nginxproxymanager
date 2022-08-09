@@ -33,11 +33,6 @@ function traefik_init(){
     fi
 }
 
-function traefik_instance(){
-    echo -e "\nRUN TRAEFIK GOACCESS"
-    /goaccess/goaccess --no-global-config --config-file=${goan_config} &
-}
-
 function traefik_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
     echo "######################################" >> ${goan_config}
@@ -122,5 +117,10 @@ function traefik(){
     echo "Logs processing: $(($goan_log_count)) (might take some time depending on the number of files to parse)" >> ${nginx_html}
     echo "<br/></p></body></html>" >> ${nginx_html}
 
-    traefik_instance
+    echo -e "\nRUN TRAEFIK GOACCESS"
+    if [[ "${DEBUG}" == "True" ]]; then
+        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
+    else
+        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+    fi
 }
