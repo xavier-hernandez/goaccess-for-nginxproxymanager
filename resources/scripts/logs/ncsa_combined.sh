@@ -56,24 +56,24 @@ function ncsa_combined(){
     echo "-------------------------------"
 
     echo $'\n' >> ${goan_config}
-    echo "#GOAN_NCSA_COMBINED_LOG_FILES" >> ${goan_config}
+    echo "#GOAN_DEFAULT_LOG_FILES" >> ${goan_config}
     echo "log-file ${archive_log}" >> ${goan_config}
     echo "log-file ${active_log}" >> ${goan_config}
 
     goan_log_count=0
     goan_archive_log_count=0
 
-    echo -e "\n#GOAN_PROXY_FILES" >> ${goan_config}
+    echo -e "\n#GOAN_NCSA_COMBINED_LOG_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" && -x "${goan_log_path}" ]]; then
         
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
 
-        if [[ -z "${LOG_FILES}" ]]; then
-            LOG_FILES="*.log"
+        if [[ -z "${LOG_TYPE_FILE_PATTERN}" ]]; then
+            LOG_TYPE_FILE_PATTERN="*.log"
         fi
 
-        for file in $(find "${goan_log_path}" -name "${LOG_FILES}");
+        for file in $(find "${goan_log_path}" -name "${LOG_TYPE_FILE_PATTERN}");
         do
             if [ -f $file ]
             then
