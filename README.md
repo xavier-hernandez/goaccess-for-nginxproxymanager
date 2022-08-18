@@ -85,7 +85,8 @@ goaccess:
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
-| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK. More information below.|
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK, NCSA_COMBINED. More information below.|
+| `-e LOG_TYPE_FILE_PATTERN=`         |   (Optional) Only to be used with LOG_TYPE=NCSA_COMBINED. This parameter will pass along the file type you are trying match. For example you can pass -e LOG_TYPE_FILE_PATTERN="*.log" or -e LOG_TYPE_FILE_PATTERN="access.log". The default is *.log. Please keep it simple as I have not tested this completely. Use at your own RISK! |
 
 # **Additional environment information**  
 ` -e LOG_TYPE=`  
@@ -118,6 +119,11 @@ goaccess:
       - SKIP_ARCHIVED_LOGS
     - the following file(s) are read and parsed.
       - access.log
+  - NCSA_COMBINED
+    - environment parameters that will not work and will be ignored
+      - SKIP_ARCHIVED_LOGS
+    - by default the following file(s) are read and parsed.
+      - *.log
 
 
 # **LOG FORMATS**
