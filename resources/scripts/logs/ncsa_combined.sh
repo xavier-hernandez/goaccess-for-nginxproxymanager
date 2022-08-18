@@ -68,7 +68,12 @@ function ncsa_combined(){
         
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
-        for file in $(find "${goan_log_path}" -name '*.log');
+
+        if [[ -z "${LOG_FILES}" ]]; then
+            LOG_FILES="*.log"
+        fi
+
+        for file in $(find "${goan_log_path}" -name "${LOG_FILES}");
         do
             if [ -f $file ]
             then
