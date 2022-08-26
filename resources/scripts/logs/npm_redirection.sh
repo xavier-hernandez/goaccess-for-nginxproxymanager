@@ -26,7 +26,6 @@ function npm_redirect_init(){
     echo -n "" > ${active_log}
 }
 
-
 function npm_redirect_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
     echo "######################################" >> ${goan_config}
