@@ -21,16 +21,9 @@ function traefik_init(){
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
-    if [[ -f "$archive_log" ]]; then
-        rm ${archive_log}
-    else
-        touch ${archive_log}
-    fi
-    if [[ -f "$active_log" ]]; then
-        rm ${active_log}
-    else
-        touch ${active_log}
-    fi
+    
+    echo -n "" > ${archive_log}
+    echo -n "" > ${active_log}
 }
 
 function traefik_goaccess_config(){
