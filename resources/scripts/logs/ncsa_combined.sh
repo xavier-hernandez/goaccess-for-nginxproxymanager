@@ -21,9 +21,16 @@ function ncsa_combined_init(){
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
-    
-    echo -n "" > ${archive_log}
-    echo -n "" > ${active_log}
+    if [[ -f "$archive_log" ]]; then
+        rm ${archive_log}
+    else
+        touch ${archive_log}
+    fi
+    if [[ -f "$active_log" ]]; then
+        rm ${active_log}
+    else
+        touch ${active_log}
+    fi
 }
 
 function ncsa_combined_goaccess_config(){

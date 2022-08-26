@@ -22,10 +22,6 @@ function npm_init(){
         rm ${html_config}
     fi
 
-    echo -n "" > ${archive_log}
-    echo -n "" > ${active_log}
-}
-
 function npm_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
     echo "######################################" >> ${goan_config}
