@@ -56,7 +56,7 @@ function npm_redirect(){
     goan_archive_log_count=0
 
     echo -e "\n#GOAN_NPM_REDIRECT_FILES" >> ${goan_config}
-    if [[ -d "${goan_log_path}" && -x "${goan_log_path}" ]]; then
+    if [[ -d "${goan_log_path}" ]]; then
         
         echo -e "\n\tAdding redirection logs..."
         IFS=$'\n'

@@ -8,20 +8,20 @@ RUN apk add --no-cache \
 
 # download goaccess
 WORKDIR /goaccess-temp
-RUN wget https://tar.goaccess.io/goaccess-1.6.2.tar.gz
+COPY /assests/goaccess/goaccess-1.6.3.tar.gz goaccess.tar.gz
 
 # set up goacess-debug
 WORKDIR /goaccess-debug
-RUN cp /goaccess-temp/goaccess-1.6.2.tar.gz .
-RUN tar --strip-components=1  -xzvf goaccess-1.6.2.tar.gz
+RUN cp /goaccess-temp/goaccess.tar.gz .
+RUN tar --strip-components=1  -xzvf goaccess.tar.gz
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline --enable-debug
 RUN make
 RUN make install
 
 # set up goacess
 WORKDIR /goaccess
-RUN cp /goaccess-temp/goaccess-1.6.2.tar.gz .
-RUN tar --strip-components=1  -xzvf goaccess-1.6.2.tar.gz
+RUN cp /goaccess-temp/goaccess.tar.gz .
+RUN tar --strip-components=1  -xzvf goaccess.tar.gz
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
@@ -44,7 +44,7 @@ COPY --from=builder /goaccess-debug /goaccess-debug
 COPY --from=builder /goaccess /goaccess
 
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
-COPY /resources/goaccess/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
+COPY /assests/maxmind/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
 
 # set up nginx
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf
