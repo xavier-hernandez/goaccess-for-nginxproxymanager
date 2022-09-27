@@ -1,10 +1,11 @@
-FROM alpine:3.16.0 AS builder
+FROM alpine:3.16.2 AS builder
 
 RUN apk add --no-cache \
         build-base \
         libmaxminddb-dev \
         ncurses-dev \
-        musl-libintl
+        musl-locales \   
+        gettext-dev
 
 # download goaccess
 WORKDIR /goaccess-temp
@@ -26,7 +27,7 @@ RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
 
-FROM alpine:3.16.0
+FROM alpine:3.16.2
 RUN apk add --no-cache \
         bash \
         nginx \
@@ -36,12 +37,15 @@ RUN apk add --no-cache \
         apache2-utils\
         libmaxminddb \
         tzdata \        
+        gettext \
+        musl-locales \
         ncurses && \
     rm -rf /var/lib/apt/lists/* && \
     rm /etc/nginx/nginx.conf
 
 COPY --from=builder /goaccess-debug /goaccess-debug
 COPY --from=builder /goaccess /goaccess
+COPY --from=builder /usr/local/share/locale /usr/local/share/locale
 
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
 COPY /assests/maxmind/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
