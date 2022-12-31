@@ -61,6 +61,7 @@ WORKDIR /goan
 ADD /resources/scripts/funcs funcs
 ADD /resources/scripts/logs logs
 COPY /resources/scripts/start.sh start.sh
+RUN chmod +x start.sh
 
 VOLUME ["/opt/log"]
 VOLUME ["/opt/custom"]
