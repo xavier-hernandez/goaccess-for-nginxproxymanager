@@ -10,8 +10,8 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 
 **Dependencies:**
-- GoAccess version: 1.6.3
-- GeoLite2-City.mmdb  (2022-09-22)
+- GoAccess version: 1.6.5
+- GeoLite2-City.mmdb  (2022-12-30)
 
 ---
 
@@ -34,45 +34,49 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 
 ```yml
-goaccess:
-    image: xavierh/goaccess-for-nginxproxymanager:latest
-    container_name: goaccess
-    restart: always
-    environment:
-        - TZ=America/New_York
-        - SKIP_ARCHIVED_LOGS=False #optional
-        - DEBUG=False #optional
-        - BASIC_AUTH=False #optional
-        - BASIC_AUTH_USERNAME=user #optional
-        - BASIC_AUTH_PASSWORD=pass #optional
-        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited list    
-        - LOG_TYPE=NPM #optional - more information below            
-    ports:
-        - '7880:7880'
-    volumes:
+version: '3.3'
+services:
+    goaccess:
+        image: 'xavierh/goaccess-for-nginxproxymanager:latest'
+        container_name: goaccess
+        restart: always
+        ports:
+            - '7880:7880'
+        environment:
+            - TZ=America/New_York         
+            - SKIP_ARCHIVED_LOGS=False #optional
+            - DEBUG=False #optional
+            - BASIC_AUTH=False #optional
+            - BASIC_AUTH_USERNAME=user #optional
+            - BASIC_AUTH_PASSWORD=pass #optional   
+            - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
+            - LOG_TYPE=NPM #optional - more information below
+        volumes:
         - /path/to/host/nginx/logs:/opt/log
         - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
-goaccess:
-    image: xavierh/goaccess-for-nginxproxymanager:latest
-    container_name: goaccess
-    restart: always
-    ports:
-        - '7880:7880'
-    environment:
-        - PUID=0
-        - PGID=0
-        - TZ=America/New_York        
-        - SKIP_ARCHIVED_LOGS=False #optional
-        - DEBUG=False #optional
-        - BASIC_AUTH=False #optional
-        - BASIC_AUTH_USERNAME=user #optional
-        - BASIC_AUTH_PASSWORD=pass #optional   
-        - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
-        - LOG_TYPE=NPM #optional - more information below
-    volumes:
+version: '3.3'
+services:
+    goaccess:
+        image: 'xavierh/goaccess-for-nginxproxymanager:latest'
+        container_name: goaccess
+        restart: always
+        ports:
+            - '7880:7880'
+        environment:
+            - PUID=0
+            - PGID=0
+            - TZ=America/New_York         
+            - SKIP_ARCHIVED_LOGS=False #optional
+            - DEBUG=False #optional
+            - BASIC_AUTH=False #optional
+            - BASIC_AUTH_USERNAME=user #optional
+            - BASIC_AUTH_PASSWORD=pass #optional   
+            - EXCLUDE_IPS=127.0.0.1 #optional - comma delimited 
+            - LOG_TYPE=NPM #optional - more information below
+        volumes:
         - /path/to/host/nginx/logs:/opt/log
         - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
 ```
