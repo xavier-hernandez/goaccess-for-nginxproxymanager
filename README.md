@@ -11,7 +11,9 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 **Dependencies:**
 - GoAccess version: 1.7
-- GeoLite2-City.mmdb  (2023-01-10)
+- GeoLite2-City.mmdb  (2023-01-12)
+- GeoLite2-Country.mmdb  (2023-01-12)
+- GeoLite2-ASN.mmdb  (2023-01-12)
 
 ---
 
