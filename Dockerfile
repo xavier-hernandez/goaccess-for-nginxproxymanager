@@ -49,6 +49,8 @@ COPY --from=builder /usr/local/share/locale /usr/local/share/locale
 
 COPY /resources/goaccess/goaccess.conf /goaccess-config/goaccess.conf.bak
 COPY /assests/maxmind/GeoLite2-City.mmdb /goaccess-config/GeoLite2-City.mmdb
+COPY /assests/maxmind/GeoLite2-ASN.mmdb /goaccess-config/GeoLite2-ASN.mmdb
+COPY /assests/maxmind/GeoLite2-Country.mmdb /goaccess-config/GeoLite2-Country.mmdb
 
 # set up nginx
 COPY /resources/nginx/nginx.conf /etc/nginx/nginx.conf

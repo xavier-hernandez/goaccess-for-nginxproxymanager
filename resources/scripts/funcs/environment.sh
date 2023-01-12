@@ -72,4 +72,6 @@ function set_geoip_database() {
     echo $'\n' >> ${1}
     echo "#GOAN_MAXMIND_DB" >> ${1}
     echo "geoip-database /goaccess-config/GeoLite2-City.mmdb" >> ${1}
+    echo "geoip-database /goaccess-config/GeoLite2-ASN.mmdb" >> ${1}
+    echo "geoip-database /goaccess-config/GeoLite2-Country.mmdb" >> ${1}
 }
