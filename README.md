@@ -10,8 +10,13 @@ New to creating docker images so bear with me. I did this more for me then for p
 
 
 **Dependencies:**
+<<<<<<< HEAD
 - GoAccess version: 1.7
 - GeoLite2-City.mmdb  (2023-01-10)
+=======
+- GoAccess version: 1.6.5
+- GeoLite2-City.mmdb  (2022-12-30)
+>>>>>>> main
 
 ---
 
