@@ -1,13 +1,16 @@
-# GoAccess for Nginx Proxy Manager Logs (and TRAEFIK and CUSTOM)
-
+# GoAccess for Nginx Proxy Manager Logs
+  
 Still in development... You might need to wait a bit if you have a large amount of logs for it to parse.
 
-<br>
+**Parses the following log types:**
+- NPM
+- NPM Redirection
+- Traefik
+- Load your own custom config as well to parse other logs
+ 
+<br/>
 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
-
-New to creating docker images so bear with me. I did this more for me then for public consumption but it appears to work so maybe someone might find it useful.
-
 
 **Dependencies:**
 - GoAccess version: 1.7
