@@ -5,6 +5,7 @@ Still in development... You might need to wait a bit if you have a large amount 
 **Parses the following log types:**
 - NPM
 - NPM Redirection
+- NPM Error
 - Traefik
 - Load your own custom config as well to parse other logs
  
@@ -14,9 +15,9 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 **Dependencies:**
 - GoAccess version: 1.7
-- GeoLite2-City.mmdb  (2023-01-22)
-- GeoLite2-Country.mmdb  (2023-01-22)
-- GeoLite2-ASN.mmdb  (2023-01-22)
+- GeoLite2-City.mmdb  (2023-02-10)
+- GeoLite2-Country.mmdb  (2023-02-10)
+- GeoLite2-ASN.mmdb  (2023-02-10)
 
 ---
 
@@ -125,6 +126,16 @@ services:
     - the following file(s) are read and parsed.
       - redirection\*host-*.log*.gz
       - redirection\*host-*.log
+  - NPM+ALL
+    - a second and third instance of GOACCESS are created
+      - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
+        - the following file(s) are read and parsed.
+          - redirection\*host-*.log*.gz
+          - redirection\*host-*.log
+      - append "/error" to the url to access the instance, for example http://localhost:7880/error/
+        - the following file(s) are read and parsed.
+          - \*_error.log*.gz
+          - \*_error.log
   - TRAEFIK
     - environment parameters that will not work and will be ignored
       - SKIP_ARCHIVED_LOGS
@@ -151,6 +162,14 @@ time-format %T
 date-format %d/%b/%Y
 log_format [%d:%t %^] %s - %m %^ %v "%U" [Client %h] [Length %b] [Gzip %^] "%u" "%R"
 ```
+
+### NPM ERROR LOG FORMAT
+```
+time-format %T
+date-format %Y/%m/%d
+log_format %d %t %^: %v, %^: %h, %^ %v %^"%r" %^
+```
+
 ### TRAEFIK ACCESS LOG FORMAT
 ```
 time-format %T
