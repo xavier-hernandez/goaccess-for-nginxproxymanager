@@ -85,7 +85,6 @@ function npm_error(){
 
         echo -e "\n\tSKIP ARCHIVED LOGS"
         echo -e "\t-------------------------------"
-        SKIP_ARCHIVED_LOGS=True
         if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
         then
             echo -e "\tTRUE"
