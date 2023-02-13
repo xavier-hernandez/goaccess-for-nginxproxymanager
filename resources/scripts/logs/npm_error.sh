@@ -66,10 +66,18 @@ function npm_error(){
             then
                 if [ -r $file ] && R="Read = yes" || R="Read = No"
                 then
-                    echo "log-file ${file}" >> ${goan_config}
-                    goan_log_count=$((goan_log_count+1))
-                    echo -ne ' \t '
-                    echo "Filename: $file | $R"
+                    number_of_lines=`wc -l < $file`
+                    how_many_lines_contain_warn=`grep -c "\[warn\]" $file`
+                    
+                    if [ $how_many_lines_contain_warn == $number_of_lines ] && [ $number_of_lines != 0 ]
+                    then
+                        echo -e "\t${file} has inconsistent log types, skipping"
+                    else
+                        echo "log-file ${file}" >> ${goan_config}
+                        goan_log_count=$((goan_log_count+1))
+                        echo -ne ' \t '
+                        echo "Filename: $file | $R"
+                    fi
                 else
                     echo -ne ' \t '
                     echo "Filename: $file | $R"
@@ -90,14 +98,14 @@ function npm_error(){
             echo -e "\tTRUE"
         else
             echo -e "\tFALSE"
-            goan_archive_log_count=`ls -1 ${goan_log_path}/proxy-host-*_error.log*.gz 2> /dev/null | wc -l`
+            goan_archive_log_count=`ls -1 ${goan_log_path}/*_error.log*.gz 2> /dev/null | wc -l`
 
             if [ $goan_archive_log_count != 0 ]
             then 
                 echo -e "\n\tAdding error archive logs..."
 
                 IFS=$'\n'
-                for file in $(find "${goan_log_path}" -name 'proxy-host-*_error.log*.gz');
+                for file in $(find "${goan_log_path}" -name '*_error.log*.gz');
                 do
                     if [ -f $file ]
                     then
@@ -117,7 +125,8 @@ function npm_error(){
                 unset IFS
 
                 echo -e "\tAdded (${goan_archive_log_count}) error archived logs from ${goan_log_path}..."
-                zcat -f ${goan_log_path}/proxy-host-*_error.log*.gz > ${archive_log}
+                zcat -f ${goan_log_path}/*_error.log*.gz > ${archive_log}
+                sed -e '/\[warn\]/d' -i ${archive_log}
             else
                 echo -e "\tNo error archived logs found at ${goan_log_path}..."
             fi

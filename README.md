@@ -136,6 +136,7 @@ services:
         - the following file(s) are read and parsed.
           - \*_error.log*.gz
           - \*_error.log
+        - error log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
   - TRAEFIK
     - environment parameters that will not work and will be ignored
       - SKIP_ARCHIVED_LOGS
