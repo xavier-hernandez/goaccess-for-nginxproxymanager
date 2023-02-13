@@ -136,7 +136,7 @@ services:
         - the following file(s) are read and parsed.
           - \*_error.log*.gz
           - \*_error.log
-        - error log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
+        - "error" log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
   - TRAEFIK
     - environment parameters that will not work and will be ignored
       - SKIP_ARCHIVED_LOGS
@@ -178,11 +178,15 @@ date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
 ```
 
-# **Possible Issues** 
+# **Possible/Known Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38
 - If your using NPM to proxy the container you need to turn on websockets support
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/69
+- LOG_TYPE=NPM+ALL
+  - "error" log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
+- Debug=True
+  - The version of this application, (GOAN vX), does not get displayed in the left side toolbar on purpose. In debug mode I don't want many customizations.
 
 # **Thanks**
 To https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
