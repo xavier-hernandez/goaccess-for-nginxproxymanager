@@ -23,6 +23,8 @@ RUN make install
 WORKDIR /goaccess
 RUN cp /goaccess-temp/goaccess.tar.gz .
 RUN tar --strip-components=1  -xzvf goaccess.tar.gz
+RUN sed -i "s/GWSocket<\/a>/GWSocket<\/a> ( <a href='https:\/\/tiny.one\/xgoan'>GOAN<\/a> <span>v1.1.13<\/span> )/" /goaccess/resources/tpls.html
+RUN sed -i "s/bottom: 190px/bottom: 260px/" /goaccess/resources/css/app.css
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install

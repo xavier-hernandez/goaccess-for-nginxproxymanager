@@ -3,11 +3,12 @@ source $(dirname "$0")/funcs/internal.sh
 source $(dirname "$0")/funcs/environment.sh
 source $(dirname "$0")/logs/npm.sh
 source $(dirname "$0")/logs/npm_redirection.sh
+source $(dirname "$0")/logs/npm_error.sh
 source $(dirname "$0")/logs/traefik.sh
 source $(dirname "$0")/logs/custom.sh
 source $(dirname "$0")/logs/ncsa_combined.sh
 
-goan_version="GOAN v1.1.12"
+goan_version="GOAN v1.1.13"
 goan_log_path="/opt/log"
 
 goaccess_ping_interval=15
@@ -28,14 +29,20 @@ tini -s -- nginx
 ### NGINX
 
 # BEGIN PROXY LOGS
-if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R" ]]; then
-    if [[ "${LOG_TYPE}" == "NPM+R" ]]; then
+if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"  || "${LOG_TYPE}" == "NPM+ALL" ]]; then
+    echo -e "\n\nNPM INSTANCE SETTING UP..."
+    npm
+
+    if [[ "${LOG_TYPE}" == "NPM+ALL" ]]; then
+        echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
+        npm_redirect
+
+        echo -e "\n\nNPM ERROR INSTANCE SETTING UP..."
+        npm_error
+    elif [[ "${LOG_TYPE}" == "NPM+R" ]]; then
         echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
         npm_redirect
     fi
-    
-    echo -e "\n\nNPM INSTANCE SETTING UP..."
-    npm
 elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
     traefik
 elif [[ "${LOG_TYPE}" == "NCSA_COMBINED" ]]; then

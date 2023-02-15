@@ -5,6 +5,7 @@ Still in development... You might need to wait a bit if you have a large amount 
 **Parses the following log types:**
 - NPM
 - NPM Redirection
+- NPM Error
 - Traefik
 - Load your own custom config as well to parse other logs
  
@@ -14,9 +15,9 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 **Dependencies:**
 - GoAccess version: 1.7
-- GeoLite2-City.mmdb  (2023-01-22)
-- GeoLite2-Country.mmdb  (2023-01-22)
-- GeoLite2-ASN.mmdb  (2023-01-22)
+- GeoLite2-City.mmdb  (2023-02-10)
+- GeoLite2-Country.mmdb  (2023-02-10)
+- GeoLite2-ASN.mmdb  (2023-02-10)
 
 ---
 
@@ -125,6 +126,17 @@ services:
     - the following file(s) are read and parsed.
       - redirection\*host-*.log*.gz
       - redirection\*host-*.log
+  - NPM+ALL
+    - a second and third instance of GOACCESS are created
+      - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
+        - the following file(s) are read and parsed.
+          - redirection\*host-*.log*.gz
+          - redirection\*host-*.log
+      - append "/error" to the url to access the instance, for example http://localhost:7880/error/
+        - the following file(s) are read and parsed.
+          - \*_error.log*.gz
+          - \*_error.log
+        - "error" log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
   - TRAEFIK
     - environment parameters that will not work and will be ignored
       - SKIP_ARCHIVED_LOGS
@@ -151,6 +163,14 @@ time-format %T
 date-format %d/%b/%Y
 log_format [%d:%t %^] %s - %m %^ %v "%U" [Client %h] [Length %b] [Gzip %^] "%u" "%R"
 ```
+
+### NPM ERROR LOG FORMAT
+```
+time-format %T
+date-format %Y/%m/%d
+log_format %d %t %^: %v, %^: %h, %^ %v %^"%r" %^
+```
+
 ### TRAEFIK ACCESS LOG FORMAT
 ```
 time-format %T
@@ -158,11 +178,15 @@ date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
 ```
 
-# **Possible Issues** 
+# **Possible/Known Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/38
 - If your using NPM to proxy the container you need to turn on websockets support
   - https://github.com/xavier-hernandez/goaccess-for-nginxproxymanager/issues/69
+- LOG_TYPE=NPM+ALL
+  - "error" log files sometimes have inconsistent log types and there isn't a way to process these. GoAccess does process files that have at least 1 error log in the files in the correct format. Viewing the docker container logs will tell you which files have been skipped.
+- Debug=True
+  - The version of this application, (GOAN vX), does not get displayed in the left side toolbar on purpose. In debug mode I don't want many customizations.
 
 # **Thanks**
 To https://github.com/GregYankovoy for the inspiration, and for their nginx.conf :)
