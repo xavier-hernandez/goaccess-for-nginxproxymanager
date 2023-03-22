@@ -130,7 +130,7 @@ function npm(){
                         if [ -e "$file" ] && [ -r "$file" ]; then
                             echo -e "\tFile $file exists and is readable"
                             ((goan_archive_detail_log_count++))
-                            zcat -f ${file} > ${archive_log}
+                            zcat -f ${file} >> ${archive_log}
                         elif [ -e "$file_path" ]; then
                             echo -e "\tFile $file exists but is not readable"
                         else
