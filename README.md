@@ -124,9 +124,13 @@ services:
   - NPM+R
     - a second instance of GOACCESS is created
     - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
-    - the following file(s) are read and parsed.
-      - redirection\*host-*.log*.gz
-      - redirection\*host-*.log
+    - the following file(s) are read and parsed: 
+      - redirection\*host-\*.log*.gz
+      - redirection\*host-\*.log
+      - fallback_access.log\*.gz
+      - fallback_access.log
+      - dead-host\*.log*.gz
+      - dead-host*.log
   - NPM+ALL
     - a second and third instance of GOACCESS are created
       - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
