@@ -30,7 +30,7 @@ function npm_redirect_goaccess_config(){
     echo -e "\n\n\n" >> ${goan_config}
     echo "######################################" >> ${goan_config}
     echo "# ${goan_version}" >> ${goan_config}
-    echo "# GOAN_NPM_REDIRECTION_CONFIG" >> ${goan_config}
+    echo "# GOAN_NPM_REDIRECTION_FALLBACK_DEAD_CONFIG" >> ${goan_config}
     echo "######################################" >> ${goan_config}
     echo "time-format %T" >> ${goan_config}
     echo "date-format %d/%b/%Y" >> ${goan_config}
@@ -44,44 +44,33 @@ function npm_redirect(){
     npm_redirect_init
     npm_redirect_goaccess_config
 
-    echo -e "\nLOADING REDIRECTION LOGS"
-    echo "-------------------------------"
+    echo -e "\nLOADING REDIRECTION/FALLBACK/DEAD LOGS"
+    echo "---------------------------------------"
 
     echo $'\n' >> ${goan_config}
-    echo "#GOAN_REDIRECTION_LOG_FILES" >> ${goan_config}
+    echo "#GOAN_REDIRECTION_FALLBACK_DEAD_LOG_FILES" >> ${goan_config}
     echo "log-file ${archive_log}" >> ${goan_config}
     echo "log-file ${active_log}" >> ${goan_config}
 
     goan_log_count=0
     goan_archive_log_count=0
 
-    echo -e "\n#GOAN_NPM_REDIRECT_FILES" >> ${goan_config}
+    echo -e "\n#GOAN_NPM_REDIRECT_FALLBACK_DEAD_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
         
-        echo -e "\n\tAdding redirection logs..."
+        echo -e "\n\tAdding redirection/fallback/dead logs..."
         IFS=$'\n'
-        for file in $(find "${goan_log_path}" -name 'redirection*host-*.log' ! -name "*_error.log");
+        for file in $(find "${goan_log_path}" \( -name 'redirection*host-*.log' -o -name 'fallback_access.log' -o -name 'dead-host*.log' \) ! -name "*_error.log*");
         do
-            if [ -f $file ]
-            then
-                if [ -r $file ] && R="Read = yes" || R="Read = No"
-                then
-                    echo "log-file ${file}" >> ${goan_config}
-                    goan_log_count=$((goan_log_count+1))
-                    echo -ne ' \t '
-                    echo "Filename: $file | $R"
-                else
-                    echo -ne ' \t '
-                    echo "Filename: $file | $R"
-                fi
-            else
-                echo -ne ' \t '
-                echo "Filename: $file | Not a file"
+            checkFile "$file"
+            if [ $? -eq 0 ]; then
+                echo "log-file ${file}" >> ${goan_config}
+                ((goan_log_count++))
             fi
         done
         unset IFS
 
-        echo -e "\tFound (${goan_log_count}) redirection logs..."
+        echo -e "\tFound (${goan_log_count}) redirection/fallback/dead logs..."
 
         echo -e "\n\tSKIP ARCHIVED LOGS"
         echo -e "\t-------------------------------"
@@ -90,36 +79,28 @@ function npm_redirect(){
             echo -e "\tTRUE"
         else
             echo -e "\tFALSE"
-            goan_archive_log_count=`ls -1 ${goan_log_path}/redirection*host-*.log*.gz 2> /dev/null | wc -l`
-
+            goan_archive_log_count=$(find "${goan_log_path}" -type f \( -name 'redirection*host-*.log*.gz' -o -name 'fallback_access.log*.gz' -o -name 'dead-host*.log*.gz' \) ! -name "*_error.log*" | wc -l)
+            goan_archive_detail_log_count=0
+            
             if [ $goan_archive_log_count != 0 ]
             then 
-                echo -e "\n\tAdding redirection archive logs..."
+                echo -e "\n\tAdding redirection/fallback/dead archive logs..."
 
                 IFS=$'\n'
-                for file in $(find "${goan_log_path}" -name 'redirection*host-*.log*.gz' ! -name "*_error.log");
+                for file in $(find "${goan_log_path}" \( -name 'redirection*host-*.log*.gz' -o -name 'fallback_access.log*.gz' -o -name 'dead-host*.log*.gz' \) ! -name "*_error.log*");
                 do
-                    if [ -f $file ]
-                    then
-                        if [ -r $file ] && R="Read = yes" || R="Read = No"
-                        then
-                            echo -ne ' \t '
-                            echo "Filename: $file | $R"
-                        else
-                            echo -ne ' \t '
-                            echo "Filename: $file | $R"
-                        fi
-                    else
-                        echo -ne ' \t '
-                        echo "Filename: $file | Not a file"
+                     checkFile "$file"
+                    if [ $? -eq 0 ]; then
+                        zcat -f ${file} >> ${archive_log}
+                        ((goan_archive_detail_log_count++))
                     fi
                 done
                 unset IFS
 
-                echo -e "\tAdded (${goan_archive_log_count}) redirection archived logs from ${goan_log_path}..."
-                zcat -f ${goan_log_path}/redirection*host-*.log*.gz > ${archive_log}
+                echo -e "\n\tAdded (${goan_archive_detail_log_count}) redirection/fallback/dead archived logs from ${goan_log_path}..."
+                
             else
-                echo -e "\tNo redirection archived logs found at ${goan_log_path}..."
+                echo -e "\tNo redirection/fallback archived logs found at ${goan_log_path}..."
             fi
         fi
 
@@ -141,7 +122,7 @@ function npm_redirect(){
     echo "Logs processing: $(($goan_log_count + $goan_archive_log_count)) (might take some time depending on the number of files to parse)" >> ${nginx_html}
     echo "<br/></p></body></html>" >> ${nginx_html}
 
-    echo -e "\nRUN NPM REDIRECT GOACCESS"
+    echo -e "\nRUN NPM REDIRECT/FALLBACK GOACCESS"
     if [[ "${DEBUG}" == "True" ]]; then
         /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
     else

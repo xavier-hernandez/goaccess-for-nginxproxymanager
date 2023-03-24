@@ -60,7 +60,7 @@ function npm(){
         
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
-        for file in $(find "${goan_log_path}" -name 'proxy*host-*.log' ! -name "*_error.log");
+        for file in $(find "${goan_log_path}" -name 'proxy*host-*_access.log' ! -name "*_error.log");
         do
             pressOn=0
 
@@ -79,14 +79,10 @@ function npm(){
             fi
 
             if [[ $pressOn == 1 ]]; then
-                if [ -e "$file" ] && [ -r "$file" ]; then
+                checkFile "$file"
+                if [ $? -eq 0 ]; then
                     echo "log-file ${file}" >> ${goan_config}
-                    goan_log_count=$((goan_log_count+1))
-                    echo -e "\tFile $file exists and is readable"
-                elif [ -e "$file_path" ]; then
-                    echo -e "\tFile $file exists but is not readable"
-                else
-                    echo -e "\tFile $file does not exist"
+                    ((goan_log_count++))
                 fi
             fi
         done
@@ -127,14 +123,10 @@ function npm(){
                     fi
 
                     if [[ $pressOn == 1 ]]; then
-                        if [ -e "$file" ] && [ -r "$file" ]; then
-                            echo -e "\tFile $file exists and is readable"
-                            ((goan_archive_detail_log_count++))
+                        checkFile "$file"
+                        if [ $? -eq 0 ]; then
                             zcat -f ${file} >> ${archive_log}
-                        elif [ -e "$file_path" ]; then
-                            echo -e "\tFile $file exists but is not readable"
-                        else
-                            echo -e "\tFile $file does not exist"
+                            ((goan_archive_detail_log_count++))
                         fi
                     fi
                 done
