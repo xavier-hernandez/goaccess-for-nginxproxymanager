@@ -62,27 +62,37 @@ function npm(){
         IFS=$'\n'
         for file in $(find "${goan_log_path}" -name 'proxy*host-*.log' ! -name "*_error.log");
         do
-            if [ -f $file ]
-            then
-                if [ -r $file ] && R="Read = yes" || R="Read = No"
-                then
+            pressOn=0
+
+            if [ -n "${INCLUDE_PROXY_HOSTS}" ]; then
+                IFS=','
+                read -ra vHost <<< "$INCLUDE_PROXY_HOSTS"
+                for hostNum in "${vHost[@]}"; do
+                    if [[ "${goan_log_path}/proxy-host-${hostNum}_access.log" = "${file}" ]]; then
+                        pressOn=1
+                        break
+                    fi
+                done
+                unset IFS
+            else
+                pressOn=1
+            fi
+
+            if [[ $pressOn == 1 ]]; then
+                if [ -e "$file" ] && [ -r "$file" ]; then
                     echo "log-file ${file}" >> ${goan_config}
                     goan_log_count=$((goan_log_count+1))
-                    echo -ne ' \t '
-                    echo "Filename: $file | $R"
+                    echo -e "\tFile $file exists and is readable"
+                elif [ -e "$file_path" ]; then
+                    echo -e "\tFile $file exists but is not readable"
                 else
-                    echo -ne ' \t '
-                    echo "Filename: $file | $R"
+                    echo -e "\tFile $file does not exist"
                 fi
-            else
-                echo -ne ' \t '
-                echo "Filename: $file | Not a file"
             fi
         done
         unset IFS
 
         echo -e "\tFound (${goan_log_count}) proxy logs..."
-
         echo -e "\n\tSKIP ARCHIVED LOGS"
         echo -e "\t-------------------------------"
         if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
@@ -91,6 +101,7 @@ function npm(){
         else
             echo -e "\tFALSE"
             goan_archive_log_count=`ls -1 ${goan_log_path}/proxy-host-*_access.log*.gz 2> /dev/null | wc -l`
+            goan_archive_detail_log_count=0
 
             if [ $goan_archive_log_count != 0 ]
             then 
@@ -99,27 +110,40 @@ function npm(){
                 IFS=$'\n'
                 for file in $(find "${goan_log_path}" -name 'proxy-host-*_access.log*.gz' ! -name "*_error.log");
                 do
-                    if [ -f $file ]
-                    then
-                        if [ -r $file ] && R="Read = yes" || R="Read = No"
-                        then
-                            echo -ne ' \t '
-                            echo "Filename: $file | $R"
-                        else
-                            echo -ne ' \t '
-                            echo "Filename: $file | $R"
-                        fi
+                    pressOn=0
+
+                    if [ -n "${INCLUDE_PROXY_HOSTS}" ]; then
+                        IFS=','
+                        read -ra vHost <<< "$INCLUDE_PROXY_HOSTS"
+                        for hostNum in "${vHost[@]}"; do
+                            if echo "$file" | grep -q "proxy-host-${hostNum}_access.log"; then
+                                pressOn=1
+                                break
+                            fi
+                        done
+                        unset IFS
                     else
-                        echo -ne ' \t '
-                        echo "Filename: $file | Not a file"
+                        pressOn=1
+                    fi
+
+                    if [[ $pressOn == 1 ]]; then
+                        if [ -e "$file" ] && [ -r "$file" ]; then
+                            echo -e "\tFile $file exists and is readable"
+                            ((goan_archive_detail_log_count++))
+                            zcat -f ${file} >> ${archive_log}
+                        elif [ -e "$file_path" ]; then
+                            echo -e "\tFile $file exists but is not readable"
+                        else
+                            echo -e "\tFile $file does not exist"
+                        fi
                     fi
                 done
                 unset IFS
 
-                echo -e "\tAdded (${goan_archive_log_count}) proxy archived logs from ${goan_log_path}..."
-                zcat -f ${goan_log_path}/proxy-host-*_access.log*.gz > ${archive_log}
+                echo -e "\n\tAdded (${goan_archive_detail_log_count}) proxy archived logs from ${goan_log_path}..."
+                
             else
-                echo -e "\tNo archived logs found at ${goan_log_path}..."
+                echo -e "\n\tNo archived logs found at ${goan_log_path}..."
             fi
         fi
 

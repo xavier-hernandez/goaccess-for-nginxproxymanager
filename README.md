@@ -14,10 +14,10 @@ Still in development... You might need to wait a bit if you have a large amount 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 **Dependencies:**
-- GoAccess version: 1.7
-- GeoLite2-City.mmdb  (2023-02-10)
-- GeoLite2-Country.mmdb  (2023-02-10)
-- GeoLite2-ASN.mmdb  (2023-02-10)
+- GoAccess version: 1.7.1
+- GeoLite2-City.mmdb  (2023-03-21)
+- GeoLite2-Country.mmdb  (2023-03-21)
+- GeoLite2-ASN.mmdb  (2023-03-21)
 
 ---
 
@@ -95,6 +95,7 @@ services:
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
+| `-e INCLUDE_PROXY_HOSTS=`         |   (Optional) Only consume the list of provided proxy hosts. This is a comma separated list containing the proxy host number for example "11,21". This would consume proxy-host-11_access.log* and proxy-host-21_access.log* . The host number can be found right clicking on the 3 dots on the proxy host line in the GUI.  |
 | `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK, NCSA_COMBINED. More information below.|
 | `-e LOG_TYPE_FILE_PATTERN=`         |   (Optional) Only to be used with LOG_TYPE=NCSA_COMBINED. This parameter will pass along the file type you are trying match. For example you can pass -e LOG_TYPE_FILE_PATTERN="*.log" or -e LOG_TYPE_FILE_PATTERN="access.log". The default is *.log. Please keep it simple as I have not tested this completely. Use at your own RISK! |
 | `-e LANG=zh_CN.UTF-8 -e LANGUAGE=zh_CN.UTF-8`         |   (Optional) Language localization added. GoAccess only has a few translations available. Please visit https://github.com/allinurl/goaccess/tree/master/po to see the translations available. <br/><br/>**Current Translations**<br/>de - German<br/>es - Spanish<br/>fr - French<br/>it - Italian<br/>ja - Japanese<br/>ko - Korean<br/>pt_BR - Portuguese (Brazil)<br/>ru - Russian<br/>sv - Swedish<br/>uk - English (United Kingdom)<br/>zh_CN - Chinese - Simplified|
