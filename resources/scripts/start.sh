@@ -32,11 +32,9 @@ tini -s -- nginx
 if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"  || "${LOG_TYPE}" == "NPM+ALL" ]]; then
     echo -e "\n\nNPM INSTANCE SETTING UP..."
     npm
-
     if [[ "${LOG_TYPE}" == "NPM+ALL" ]]; then
         echo -e "\n\nNPM REDIRECT INSTANCE SETTING UP..."
         npm_redirect
-
         echo -e "\n\nNPM ERROR INSTANCE SETTING UP..."
         npm_error
     elif [[ "${LOG_TYPE}" == "NPM+R" ]]; then

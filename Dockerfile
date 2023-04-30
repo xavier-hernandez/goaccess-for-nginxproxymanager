@@ -9,7 +9,7 @@ RUN apk add --no-cache \
 
 # download goaccess
 WORKDIR /goaccess-temp
-COPY /assests/goaccess/goaccess-1.7.1.tar.gz goaccess.tar.gz
+COPY /assests/goaccess/goaccess-1.7.2.tar.gz goaccess.tar.gz
 
 # set up goacess-debug
 WORKDIR /goaccess-debug
