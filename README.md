@@ -14,10 +14,10 @@ Still in development... You might need to wait a bit if you have a large amount 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 **Dependencies:**
-- GoAccess version: 1.7.1
-- GeoLite2-City.mmdb  (2023-03-21)
-- GeoLite2-Country.mmdb  (2023-03-21)
-- GeoLite2-ASN.mmdb  (2023-03-21)
+- GoAccess version: 1.7.2
+- GeoLite2-City.mmdb  (2023-04-30)
+- GeoLite2-Country.mmdb  (2023-04-30)
+- GeoLite2-ASN.mmdb  (2023-04-30)
 
 ---
 
@@ -124,9 +124,13 @@ services:
   - NPM+R
     - a second instance of GOACCESS is created
     - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
-    - the following file(s) are read and parsed.
-      - redirection\*host-*.log*.gz
-      - redirection\*host-*.log
+    - the following file(s) are read and parsed: 
+      - redirection\*host-\*.log*.gz
+      - redirection\*host-\*.log
+      - fallback_access.log\*.gz
+      - fallback_access.log
+      - dead-host\*.log*.gz
+      - dead-host*.log
   - NPM+ALL
     - a second and third instance of GOACCESS are created
       - append "/redirection" to the url to access the instance, for example http://localhost:7880/redirection/
