@@ -91,7 +91,7 @@ function npm(){
         echo -e "\tFound (${goan_log_count}) proxy logs..."
         echo -e "\n\tSKIP ARCHIVED LOGS"
         echo -e "\t-------------------------------"
-        if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
+        if [[ "${SKIP_ARCHIVED_LOGS}" == "True" || ${SKIP_ARCHIVED_LOGS} == true ]]
         then
             echo -e "\tTRUE"
         else
