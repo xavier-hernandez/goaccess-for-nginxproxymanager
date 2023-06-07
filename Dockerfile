@@ -67,6 +67,9 @@ ADD /resources/scripts/logs logs
 COPY /resources/scripts/start.sh start.sh
 RUN chmod +x start.sh
 
+# store archives
+RUN mkdir -p /goaccess-logs/archives
+
 VOLUME ["/opt/log"]
 VOLUME ["/opt/custom"]
 EXPOSE 7880
