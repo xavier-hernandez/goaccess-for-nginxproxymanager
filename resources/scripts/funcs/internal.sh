@@ -4,14 +4,11 @@ function checkFile(){
     if [ -z "$1" ]; then
         return 1
     else
-        if [ -e "$file" ] && [ -r "$file" ]; then
-            echo -e "\tFile $file exists and is readable"
+        if [ -e "$1" ]; then
+            echo -e "\tFile $1 exists"
             return 0
-        elif [ -e "$file_path" ]; then
-            echo -e "\tFile $file exists but is not readable"
-            return 1
         else
-            echo -e "\tFile $file does not exist"
+            echo -e "\tFile $1 does not exist"
             return 1
         fi
     fi
