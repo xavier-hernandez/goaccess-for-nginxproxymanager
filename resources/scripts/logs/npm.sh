@@ -125,7 +125,12 @@ function npm(){
                     if [[ $pressOn == 1 ]]; then
                         checkFile "$file"
                         if [ $? -eq 0 ]; then
-                            zcat -f ${file} >> ${archive_log}
+                            cleanFileName="${file//.gz/}"
+                            cleanFileName="${cleanFileName//\/opt\/log/}"
+                            cleanFileName="/goaccess-logs/archives${cleanFileName}"
+
+                            zcat -f ${file} > ${cleanFileName}
+                            echo "log-file ${cleanFileName}" >> ${goan_config}
                             ((goan_archive_detail_log_count++))
                         fi
                     fi
