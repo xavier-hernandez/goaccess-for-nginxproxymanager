@@ -15,9 +15,9 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 **Dependencies:**
 - GoAccess version: 1.7.2
-- GeoLite2-City.mmdb  (2023-07-02)
-- GeoLite2-Country.mmdb  (2023-07-02)
-- GeoLite2-ASN.mmdb  (2023-07-02)
+- GeoLite2-City.mmdb  (2023-08-10)
+- GeoLite2-Country.mmdb  (2023-08-10)
+- GeoLite2-ASN.mmdb  (2023-08-10)
 
 ---
 
@@ -90,7 +90,7 @@ services:
 | Parameter | Function |
 |-----------|----------|
 | `-e SKIP_ARCHIVED_LOGS=True/False`         |   (Optional) Defaults to False. Set to True to skip archived logs, i.e. proxy-host*.gz     |
-| `-e DEBUG=True/False`         |   (Optional) HTML version of the running goaccess.conf within the container     |
+| `-e DEBUG=True/False`         |   (Optional) Displays more information in the docker logs. This mode also checks logs for parsing errors.     |
 | `-e BASIC_AUTH=True/False`         |   (Optional) Defaults to False. Set to True to enable nginx basic authentication.  Docker container needs to stopped or restarted each time this flag is modified. This allows for the .htpasswd file to be changed accordingly.   |
 | `-e BASIC_AUTH_USERNAME=user`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Username for basic authentication.     |
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |

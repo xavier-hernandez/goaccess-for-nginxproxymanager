@@ -166,6 +166,6 @@ function npm(){
     if [[ "${DEBUG}" == "True" ]]; then
         /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
     else
-        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+        /goaccess/goaccess --num-tests=0 --no-global-config --config-file=${goan_config} &
     fi
 }
