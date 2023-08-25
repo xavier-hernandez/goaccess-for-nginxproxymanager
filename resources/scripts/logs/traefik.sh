@@ -60,7 +60,14 @@ function traefik(){
         
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
-        for file in $(find "${goan_log_path}" -name 'access.log');
+
+        if [[ -z "${LOG_TYPE_FILE_PATTERN}" ]]; then
+            LOG_TYPE_FILE_PATTERN="access.log"
+        else
+            LOG_TYPE_FILE_PATTERN="*.log"
+        fi
+
+        for file in $(find "${goan_log_path}" -name "${LOG_TYPE_FILE_PATTERN}");
         do
             if [ -f $file ]
             then
