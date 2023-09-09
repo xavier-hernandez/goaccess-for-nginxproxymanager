@@ -60,7 +60,14 @@ function traefik(){
         
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
-        for file in $(find "${goan_log_path}" -name 'access.log');
+
+        if [[ -z "${LOG_TYPE_FILE_PATTERN}" ]]; then
+            LOG_TYPE_FILE_PATTERN="access.log"
+        else
+            LOG_TYPE_FILE_PATTERN="*.log"
+        fi
+
+        for file in $(find "${goan_log_path}" -name "${LOG_TYPE_FILE_PATTERN}");
         do
             if [ -f $file ]
             then
@@ -114,6 +121,6 @@ function traefik(){
     if [[ "${DEBUG}" == "True" ]]; then
         /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
     else
-        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+        /goaccess/goaccess --num-tests=0 --no-global-config --config-file=${goan_config} &
     fi
 }
