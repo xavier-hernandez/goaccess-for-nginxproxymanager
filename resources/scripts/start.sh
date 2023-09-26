@@ -28,6 +28,39 @@ fi
 tini -s -- nginx
 ### NGINX
 
+### COPY ORIGINAL BROWSERS LIST
+original_browsers_list=/goaccess/config/browsers.list
+browsers_list="/goaccess-config/browsers.list"
+if [[ -f ${browsers_list} ]]; then
+    rm ${browsers_list}
+    cp ${original_browsers_list} ${browsers_list}
+else
+    cp ${original_browsers_list} ${browsers_list}
+fi
+### END COPYING BROWSERS LIST
+
+### MODIFY BROWSERS LIST WITH USER'S CUSTOM BROWSERS
+if [ ! -z "${CUSTOM_BROWSERS}" ]; then
+    IFS=','
+    read -ra BROWSER_CATEGORY <<< "$CUSTOM_BROWSERS"
+    unset IFS
+    for b_c in "${BROWSER_CATEGORY[@]}"; do
+        IFS=':'
+        read -ra BROWSER <<< "$b_c"
+        if grep -Fwq "${BROWSER[0]}" ${browsers_list}
+        then
+            echo -e "\n\t${BROWSER[0]} ALREADY IN BROWSERS LIST"
+        else
+            echo -e "${BROWSER[0]}\t${BROWSER[1]}" >> ${browsers_list}
+            echo -e "\n\t${BROWSER[0]} ADDED TO BROWSERS LIST"
+        fi
+    done
+    unset IFS
+else
+    echo -e "\n\tCUSTOM_BROWSERS VARIABLE IS EMPTY"
+fi
+### END MODIFYING BROWSERS LIST
+
 # BEGIN PROXY LOGS
 if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"  || "${LOG_TYPE}" == "NPM+ALL" ]]; then
     echo -e "\n\nNPM INSTANCE SETTING UP..."
