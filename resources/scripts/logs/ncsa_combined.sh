@@ -21,7 +21,7 @@ function ncsa_combined_init(){
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
-    
+
     echo -n "" > ${archive_log}
     echo -n "" > ${active_log}
 }
@@ -36,9 +36,14 @@ function ncsa_combined_goaccess_config(){
     echo "date-format %d/%b/%Y" >> ${goan_config}
     #echo "log-format [%d:%t %^] %^ %s %^ %^ %m %^ %v \"%U\" [%^ %h] [%^ %b] %^\"%u\" \"%R\"" >> ${goan_config}
     echo "log-format %h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\"" >> ${goan_config}
-    echo "port 7890" >> ${goan_config}    
+    echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING NCSA_COMBINED INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function ncsa_combined(){
@@ -58,7 +63,7 @@ function ncsa_combined(){
 
     echo -e "\n#GOAN_NCSA_COMBINED_LOG_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
 
@@ -106,7 +111,7 @@ function ncsa_combined(){
     echo -e "\nSKIP ARCHIVED LOGS"
     echo "-------------------------------"
     echo "FEATURE NOT AVAILABLE FOR NCSA_COMBINED"
-    
+
     #write out loading page
     echo "<!doctype html><html><head>" > ${nginx_html}
     echo "<title>GOAN - ${goan_version}</title>" >> ${nginx_html}
