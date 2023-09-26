@@ -29,6 +29,15 @@ function custom_init(){
         fi
         if [[ -r ${goan_config} ]]; then
             echo -e "goaccess.conf readable"
+            if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+                if grep -Fwq "browsers-file" ${goan_config}; then
+                    echo -e "\n\t\BROWSERS FILE ALREADY DEFINED IN CUSTOM GOACCESS.CONF. IGNORING CUSTOM_BROWSERS VARIABLE"
+                else
+                    echo -e "\n\tENABLING CUSTOM INSTANCE GOACCESS BROWSERS LIST"
+                    browsers_file="/goaccess-config/browsers.list"
+                    echo "browsers-file ${browsers_file}" >> ${goan_config}
+                fi
+            fi
         else
             echo -e "goaccess.conf not readable"
             #exit
