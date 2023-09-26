@@ -38,6 +38,11 @@ function npm_redirect_goaccess_config(){
     echo "port 7891" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING NPM REDIRECTION INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function npm_redirect(){
@@ -57,7 +62,7 @@ function npm_redirect(){
 
     echo -e "\n#GOAN_NPM_REDIRECT_FALLBACK_DEAD_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding redirection/fallback/dead logs..."
         IFS=$'\n'
         for file in $(find "${goan_log_path}" \( -name 'redirection*host-*.log' -o -name 'fallback_access.log' -o -name 'dead-host*.log' \) ! -name "*_error.log*");
@@ -81,9 +86,9 @@ function npm_redirect(){
             echo -e "\tFALSE"
             goan_archive_log_count=$(find "${goan_log_path}" -type f \( -name 'redirection*host-*.log*.gz' -o -name 'fallback_access.log*.gz' -o -name 'dead-host*.log*.gz' \) ! -name "*_error.log*" | wc -l)
             goan_archive_detail_log_count=0
-            
+
             if [ $goan_archive_log_count != 0 ]
-            then 
+            then
                 echo -e "\n\tAdding redirection/fallback/dead archive logs..."
 
                 IFS=$'\n'
@@ -98,7 +103,7 @@ function npm_redirect(){
                 unset IFS
 
                 echo -e "\n\tAdded (${goan_archive_detail_log_count}) redirection/fallback/dead archived logs from ${goan_log_path}..."
-                
+
             else
                 echo -e "\tNo redirection/fallback archived logs found at ${goan_log_path}..."
             fi
