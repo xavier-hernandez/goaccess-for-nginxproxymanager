@@ -38,6 +38,11 @@ function npm_error_goaccess_config(){
     echo "port 7892" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING NPM ERROR INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function npm_error(){
@@ -57,7 +62,7 @@ function npm_error(){
 
     echo -e "\n#GOAN_NPM_ERROR_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding error logs..."
         IFS=$'\n'
         for file in $(find "${goan_log_path}" -name '*_error.log');
@@ -68,7 +73,7 @@ function npm_error(){
                 then
                     number_of_lines=`wc -l < $file`
                     how_many_lines_contain_warn=`grep -c "\[warn\]" $file`
-                    
+
                     if [ $how_many_lines_contain_warn == $number_of_lines ] && [ $number_of_lines != 0 ]
                     then
                         echo -e "\t${file} has inconsistent log types, skipping"
@@ -101,7 +106,7 @@ function npm_error(){
             goan_archive_log_count=`ls -1 ${goan_log_path}/*_error.log*.gz 2> /dev/null | wc -l`
 
             if [ $goan_archive_log_count != 0 ]
-            then 
+            then
                 echo -e "\n\tAdding error archive logs..."
 
                 IFS=$'\n'
