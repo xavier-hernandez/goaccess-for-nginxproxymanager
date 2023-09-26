@@ -21,7 +21,7 @@ function traefik_init(){
     if [[ -f ${html_config} ]]; then
         rm ${html_config}
     fi
-    
+
     echo -n "" > ${archive_log}
     echo -n "" > ${active_log}
 }
@@ -35,9 +35,14 @@ function traefik_goaccess_config(){
     echo "time-format %T" >> ${goan_config}
     echo "date-format %d/%b/%Y" >> ${goan_config}
     echo "log-format %h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm" >> ${goan_config}
-    echo "port 7890" >> ${goan_config}    
+    echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING TRAEFIK INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function traefik(){
@@ -57,7 +62,7 @@ function traefik(){
 
     echo -e "\n#GOAN_PROXY_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
 
@@ -107,7 +112,7 @@ function traefik(){
     echo -e "\nSKIP ARCHIVED LOGS"
     echo "-------------------------------"
     echo "FEATURE NOT AVAILABLE FOR TRAEFIK"
-    
+
     #write out loading page
     echo "<!doctype html><html><head>" > ${nginx_html}
     echo "<title>GOAN - ${goan_version}</title>" >> ${nginx_html}
