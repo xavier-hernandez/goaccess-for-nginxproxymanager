@@ -38,6 +38,11 @@ function npm_goaccess_config(){
     echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING NPM INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function npm(){
@@ -57,7 +62,7 @@ function npm(){
 
     echo -e "\n#GOAN_NPM_PROXY_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
         for file in $(find "${goan_log_path}" -name 'proxy*host-*_access.log' ! -name "*_error.log");
@@ -100,7 +105,7 @@ function npm(){
             goan_archive_detail_log_count=0
 
             if [ $goan_archive_log_count != 0 ]
-            then 
+            then
                 echo -e "\n\tAdding proxy archive logs..."
 
                 IFS=$'\n'
@@ -138,7 +143,7 @@ function npm(){
                 unset IFS
 
                 echo -e "\n\tAdded (${goan_archive_detail_log_count}) proxy archived logs from ${goan_log_path}..."
-                
+
             else
                 echo -e "\n\tNo archived logs found at ${goan_log_path}..."
             fi
