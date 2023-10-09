@@ -1,4 +1,4 @@
-FROM alpine:3.17 AS builder
+FROM alpine:3.18 AS builder
 
 RUN apk add --no-cache \
         build-base \
@@ -23,13 +23,13 @@ RUN make install
 WORKDIR /goaccess
 RUN cp /goaccess-temp/goaccess.tar.gz .
 RUN tar --strip-components=1  -xzvf goaccess.tar.gz
-RUN sed -i "s/GWSocket<\/a>/GWSocket<\/a> ( <a href='https:\/\/tiny.one\/xgoan'>GOAN<\/a> <span>v1.1.15<\/span> )/" /goaccess/resources/tpls.html
+RUN sed -i "s/GWSocket<\/a>/GWSocket<\/a> ( <a href='https:\/\/tiny.one\/xgoan'>GOAN<\/a> <span>v1.1.22<\/span> )/" /goaccess/resources/tpls.html
 RUN sed -i "s/bottom: 190px/bottom: 260px/" /goaccess/resources/css/app.css
 RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
 
-FROM alpine:3.17
+FROM alpine:3.18
 RUN apk add --no-cache \
         bash \
         nginx \
@@ -66,6 +66,9 @@ ADD /resources/scripts/funcs funcs
 ADD /resources/scripts/logs logs
 COPY /resources/scripts/start.sh start.sh
 RUN chmod +x start.sh
+
+# store archives
+RUN mkdir -p /goaccess-logs/archives
 
 VOLUME ["/opt/log"]
 VOLUME ["/opt/custom"]

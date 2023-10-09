@@ -38,6 +38,11 @@ function npm_goaccess_config(){
     echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
+    if [[ "${ENABLE_BROWSERS_LIST}" == "True" || ${ENABLE_BROWSERS_LIST} == true ]]; then
+        echo -e "\n\tENABLING NPM INSTANCE GOACCESS BROWSERS LIST"
+        browsers_file="/goaccess-config/browsers.list"
+        echo "browsers-file ${browsers_file}" >> ${goan_config}
+    fi
 }
 
 function npm(){
@@ -57,7 +62,7 @@ function npm(){
 
     echo -e "\n#GOAN_NPM_PROXY_FILES" >> ${goan_config}
     if [[ -d "${goan_log_path}" ]]; then
-        
+
         echo -e "\n\tAdding proxy logs..."
         IFS=$'\n'
         for file in $(find "${goan_log_path}" -name 'proxy*host-*_access.log' ! -name "*_error.log");
@@ -91,7 +96,7 @@ function npm(){
         echo -e "\tFound (${goan_log_count}) proxy logs..."
         echo -e "\n\tSKIP ARCHIVED LOGS"
         echo -e "\t-------------------------------"
-        if [[ "${SKIP_ARCHIVED_LOGS}" == "True" ]]
+        if [[ "${SKIP_ARCHIVED_LOGS}" == "True" || ${SKIP_ARCHIVED_LOGS} == true ]]
         then
             echo -e "\tTRUE"
         else
@@ -100,7 +105,7 @@ function npm(){
             goan_archive_detail_log_count=0
 
             if [ $goan_archive_log_count != 0 ]
-            then 
+            then
                 echo -e "\n\tAdding proxy archive logs..."
 
                 IFS=$'\n'
@@ -125,7 +130,12 @@ function npm(){
                     if [[ $pressOn == 1 ]]; then
                         checkFile "$file"
                         if [ $? -eq 0 ]; then
-                            zcat -f ${file} >> ${archive_log}
+                            cleanFileName="${file//.gz/}"
+                            cleanFileName="${cleanFileName//\/opt\/log/}"
+                            cleanFileName="/goaccess-logs/archives${cleanFileName}"
+
+                            zcat -f ${file} > ${cleanFileName}
+                            echo "log-file ${cleanFileName}" >> ${goan_config}
                             ((goan_archive_detail_log_count++))
                         fi
                     fi
@@ -133,7 +143,7 @@ function npm(){
                 unset IFS
 
                 echo -e "\n\tAdded (${goan_archive_detail_log_count}) proxy archived logs from ${goan_log_path}..."
-                
+
             else
                 echo -e "\n\tNo archived logs found at ${goan_log_path}..."
             fi
@@ -161,6 +171,6 @@ function npm(){
     if [[ "${DEBUG}" == "True" ]]; then
         /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
     else
-        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+        /goaccess/goaccess --num-tests=0 --no-global-config --config-file=${goan_config} &
     fi
 }
