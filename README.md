@@ -153,6 +153,19 @@ services:
       - SKIP_ARCHIVED_LOGS
     - the following file(s) are read and parsed.
       - access.log
+    - You can also set the following environment variables yourself to override the defaults
+      - TIME_FORMAT
+      - DATE_FORMAT
+      - LOG_FORMAT  
+
+      ```
+      FOR EXAMPLE
+      ---------------------------------
+      TIME_FORMAT=%H:%M:%S
+      DATE_FORMAT=%Y-%m-%d
+      LOG_FORMAT='{"ClientHost": "%h", "ClientUsername": "%e", "DownstreamContentSize": "%b", "Duration": "%n", "DownstreamStatus": "%s", "RequestAddr": "%v", "RequestMethod": "%m", "RequestPath": "%U", "RequestProtocol": "%H", "StartUTC": "%dT%t.%^", "request_User-Agent": "%u"}'
+      ``````
+
   - NCSA_COMBINED
     - environment parameters that will not work and will be ignored
       - SKIP_ARCHIVED_LOGS
@@ -188,6 +201,7 @@ time-format %T
 date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
 ```
+
 
 # **Possible/Known Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI

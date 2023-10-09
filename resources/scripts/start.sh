@@ -75,9 +75,7 @@ if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"  ||
         npm_redirect
     fi
 elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
-    traefik 1
-elif [[ "${LOG_TYPE}" == "TRAEFIKv2" ]]; then
-    traefik 2
+    traefik
 elif [[ "${LOG_TYPE}" == "NCSA_COMBINED" ]]; then
     ncsa_combined
 elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then
