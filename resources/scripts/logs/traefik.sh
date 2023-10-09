@@ -32,9 +32,15 @@ function traefik_goaccess_config(){
     echo "# ${goan_version}" >> ${goan_config}
     echo "# GOAN_PROXY_CONFIG" >> ${goan_config}
     echo "######################################" >> ${goan_config}
-    echo "time-format %T" >> ${goan_config}
-    echo "date-format %d/%b/%Y" >> ${goan_config}
-    echo "log-format %h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm" >> ${goan_config}
+    if [ "$1" -eq 2 ]; then
+        echo "time-format ${TIME_FORMAT:-'%T'}" >> ${goan_config}
+        echo "date-format ${DATE_FORMAT:-'%d/%b/%Y'}" >> ${goan_config}
+        echo "log-format ${LOG_FORMAT:-'%h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm'}" >> ${goan_config}
+    else
+        echo "time-format %T" >> ${goan_config}
+        echo "date-format %d/%b/%Y" >> ${goan_config}
+        echo "log-format %h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm" >> ${goan_config}
+    fi
     echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}

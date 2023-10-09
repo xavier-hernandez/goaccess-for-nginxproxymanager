@@ -8,7 +8,7 @@ source $(dirname "$0")/logs/traefik.sh
 source $(dirname "$0")/logs/custom.sh
 source $(dirname "$0")/logs/ncsa_combined.sh
 
-goan_version="GOAN v1.1.21"
+goan_version="GOAN v1.1.22"
 goan_log_path="/opt/log"
 
 goaccess_ping_interval=15
@@ -75,7 +75,9 @@ if [[ -z "${LOG_TYPE}" || "${LOG_TYPE}" == "NPM" || "${LOG_TYPE}" == "NPM+R"  ||
         npm_redirect
     fi
 elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
-    traefik
+    traefik 1
+elif [[ "${LOG_TYPE}" == "TRAEFIKv2" ]]; then
+    traefik 2
 elif [[ "${LOG_TYPE}" == "NCSA_COMBINED" ]]; then
     ncsa_combined
 elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then
