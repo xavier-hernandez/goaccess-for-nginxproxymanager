@@ -70,6 +70,11 @@ RUN chmod +x start.sh
 # store archives
 RUN mkdir -p /goaccess-logs/archives
 
+# goaccess command line options
+ENV HTML_REFRESH=30
+ENV KEEP_LAST=30
+ENV GOACCESS_OTHER_OPTIONS=" "
+
 VOLUME ["/opt/log"]
 VOLUME ["/opt/custom"]
 EXPOSE 7880
