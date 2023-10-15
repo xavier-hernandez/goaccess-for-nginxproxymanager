@@ -65,9 +65,11 @@ function custom(){
 
     echo -e "\nRUN CUSTOM GOACCESS"
     if [[ "${DEBUG}" == "True" ]]; then
-        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
+        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} \
+          --html-refresh="${HTML_REFRESH}" --keep-last="${KEEP_LAST}" "${GOACCES_OTHER_OPTIONS" &
     else
-        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
+        /goaccess/goaccess --no-global-config --config-file=${goan_config} \
+          --html-refresh="${HTML_REFRESH}" --keep-last="${KEEP_LAST}" "${GOACCES_OTHER_OPTIONS" &
     fi
 
 }
