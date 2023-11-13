@@ -34,7 +34,8 @@ function traefik_goaccess_config(){
     echo "######################################" >> ${goan_config}
     echo "time-format ${TIME_FORMAT:-%T}" >> ${goan_config}
     echo "date-format ${DATE_FORMAT:-%d/%b/%Y}" >> ${goan_config}
-    echo "log-format ${LOG_FORMAT:-%h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm}" >> ${goan_config}
+    #echo "log-format ${LOG_FORMAT:-%h %^[%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %Lm}" >> ${goan_config}
+    echo "log-format ${LOG_FORMAT:-%h %^ %e [%d:%t %^] \"%r\" %s %b \"%R\" \"%u\" %^ \"%v\" %^ %Lms}" >> ${goan_config}
     echo "port 7890" >> ${goan_config}
     echo "real-time-html true" >> ${goan_config}
     echo "output ${nginx_html}" >> ${goan_config}
@@ -123,9 +124,5 @@ function traefik(){
     echo "<br/></p></body></html>" >> ${nginx_html}
 
     echo -e "\nRUN TRAEFIK GOACCESS"
-    if [[ "${DEBUG}" == "True" ]]; then
-        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
-    else
-        /goaccess/goaccess --num-tests=0 --no-global-config --config-file=${goan_config} &
-    fi
+    runGoAccess
 }

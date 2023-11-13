@@ -13,3 +13,11 @@ function checkFile(){
         fi
     fi
 }
+
+function is_integer() {
+    if [[ $1 =~ ^[0-9]+$ ]]; then
+        return 0  # It's an integer
+    else
+        return 1  # It's not an integer
+    fi
+}

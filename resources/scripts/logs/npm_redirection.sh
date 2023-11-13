@@ -128,9 +128,5 @@ function npm_redirect(){
     echo "<br/></p></body></html>" >> ${nginx_html}
 
     echo -e "\nRUN NPM REDIRECT/FALLBACK GOACCESS"
-    if [[ "${DEBUG}" == "True" ]]; then
-        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
-    else
-        /goaccess/goaccess --no-global-config --config-file=${goan_config} &
-    fi
+    runGoAccess
 }

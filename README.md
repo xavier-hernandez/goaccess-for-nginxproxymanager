@@ -14,10 +14,10 @@ Still in development... You might need to wait a bit if you have a large amount 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 **Dependencies:**
-- GoAccess version: 1.7.2
-- GeoLite2-City.mmdb  (2023-10-08)
-- GeoLite2-Country.mmdb  (2023-10-08)
-- GeoLite2-ASN.mmdb  (2023-10-08)
+- GoAccess version: 1.8.1
+- GeoLite2-City.mmdb  (2023-11-12)
+- GeoLite2-Country.mmdb  (2023-11-12)
+- GeoLite2-ASN.mmdb  (2023-11-12)
 
 ---
 
@@ -59,6 +59,8 @@ services:
             - LOG_TYPE=NPM #optional - more information below
             - ENABLE_BROWSERS_LIST=True #optional - more information below
             - CUSTOM_BROWSERS=Kuma:Uptime,TestBrowser:Crawler #optional - comma delimited, more information below
+            - HTML_REFRESH=5 #optional - Refresh the HTML report every X seconds. https://goaccess.io/man
+            - KEEP_LAST=30 #optional - Keep the last specified number of days in storage. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log
         - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
@@ -86,6 +88,8 @@ services:
             - LOG_TYPE=NPM #optional - more information below
             - ENABLE_BROWSERS_LIST=True #optional - more information below
             - CUSTOM_BROWSERS=Kuma:Uptime,TestBrowser:Crawler #optional - comma delimited, more information below
+            - HTML_REFRESH=5 #optional - Refresh the HTML report every X seconds. https://goaccess.io/man
+            - KEEP_LAST=30 #optional - Keep the last specified number of days in storage. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log
         - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
@@ -105,7 +109,8 @@ services:
 | `-e LANG=zh_CN.UTF-8 -e LANGUAGE=zh_CN.UTF-8`         |   (Optional) Language localization added. GoAccess only has a few translations available. Please visit https://github.com/allinurl/goaccess/tree/master/po to see the translations available. <br/><br/>**Current Translations**<br/>de - German<br/>es - Spanish<br/>fr - French<br/>it - Italian<br/>ja - Japanese<br/>ko - Korean<br/>pt_BR - Portuguese (Brazil)<br/>ru - Russian<br/>sv - Swedish<br/>uk - English (United Kingdom)<br/>zh_CN - Chinese - Simplified|
 | `-e ENABLE_BROWSERS_LIST=True/False`         |   (Optional) Defaults to False. Set to true if you would like to enable the [goaccess browsers.list](https://github.com/allinurl/goaccess/blob/master/config/browsers.list) file.     |
 | `-e CUSTOM_BROWSERS=`         |   - (Optional) Consumes the list of provided custom browsers. This is a comma separated list containing the custom browser(s) in the format `Browser:Browser_category`.<br/>- If your custom browser is already defined in the default `browsers.list` file, it will not be added. However, the `Browser_category` can be reused.<br/><br/> CUSTOM_BROWSERS list example: `Kuma:Crawlers,TestBrowser:Crawlers,Kuma:Uptime,Discordbot:Crawlers`<br/><br/>For the example above, only `Kuma:Crawlers` and `TestBrowser:Crawlers` will be appended to the `browsers.list` file. <br/><br/>`Kuma:Uptime` is ignored as the browser `Kuma` has already been defined in `Kuma:Crawlers`. `Discordbot:Crawlers` is ignored as the browser `Discordbot` is already defined in the [default browsers.list file](https://github.com/allinurl/goaccess/blob/master/config/browsers.list)<br/><br/>Note for users using CUSTOM LOG_TYPE:<br/><br/>If your `goaccess.conf` file references a browsers.list file other than the one located in the `/goaccess-config/ directory`, the CUSTOM_BROWSERS variable will be ignored.    |
-
+| `-e HTML_REFRESH=`         |   (Optional) Refresh the HTML report every X seconds. https://goaccess.io/man |
+| `-e KEEP_LAST=`         |   (Optional) Keep the last specified number of days in storage. https://goaccess.io/man|
 
 # **Additional environment information**  
 ` -e LOG_TYPE=`  
