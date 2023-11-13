@@ -75,3 +75,29 @@ function set_geoip_database() {
     echo "geoip-database /goaccess-config/GeoLite2-ASN.mmdb" >> ${1}
     echo "geoip-database /goaccess-config/GeoLite2-Country.mmdb" >> ${1}
 }
+
+function runGoAccess(){
+    goacess_options="--num-tests=0 --no-global-config"
+
+    if [ -n "$HTML_REFRESH" ]; then
+        if is_integer "$HTML_REFRESH"; then
+            goacess_options="$goacess_options --html-refresh=${HTML_REFRESH}"
+        else
+            echo "Error: HTML_REFRESH does not contain an integer, ignoring".
+        fi
+    fi
+
+    if [ -n "$KEEP_LAST" ]; then
+        if is_integer "$KEEP_LAST"; then
+            goacess_options="$goacess_options --keep-last=${KEEP_LAST}"
+        else
+            echo "Error: KEEP_LAST does not contain an integer, ignoring".
+        fi
+    fi
+
+    if [[ "${DEBUG}" == "True" ]]; then
+        /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
+    else
+        /goaccess/goaccess ${goacess_options} --config-file=${goan_config} &
+    fi
+}
