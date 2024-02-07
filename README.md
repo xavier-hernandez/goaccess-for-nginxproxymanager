@@ -176,6 +176,9 @@ services:
       - SKIP_ARCHIVED_LOGS
     - by default the following file(s) are read and parsed.
       - *.log
+  - NGINX_ACCESS
+    - the following file(s) are read and parsed.
+      - access.log
 
 
 # **LOG FORMATS**
@@ -205,6 +208,13 @@ log_format %d %t %^: %v, %^: %h, %^ %v %^"%r" %^
 time-format %T
 date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u" %Lm"
+```
+
+### NGINX ACCESS LOG FORMAT
+```
+time-format %T
+date-format %d/%b/%Y
+log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u"
 ```
 
 
