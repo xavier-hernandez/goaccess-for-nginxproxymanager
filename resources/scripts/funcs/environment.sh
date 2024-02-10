@@ -83,7 +83,7 @@ function runGoAccess(){
         if is_integer "$HTML_REFRESH"; then
             goacess_options="$goacess_options --html-refresh=${HTML_REFRESH}"
         else
-            echo "Error: HTML_REFRESH does not contain an integer, ignoring".
+            echo -e "Error: HTML_REFRESH does not contain an integer, ignoring.\n"
         fi
     fi
 
@@ -91,7 +91,19 @@ function runGoAccess(){
         if is_integer "$KEEP_LAST"; then
             goacess_options="$goacess_options --keep-last=${KEEP_LAST}"
         else
-            echo "Error: KEEP_LAST does not contain an integer, ignoring".
+            echo -e "\nError: KEEP_LAST does not contain an integer, ignoring.\n"
+        fi
+    fi
+
+    if [ -n "$PROCESSING_THREADS" ]; then
+        if is_integer "$PROCESSING_THREADS"; then
+            if [ "$PROCESSING_THREADS" -ge 1 ] && [ "$PROCESSING_THREADS" -le 6 ]; then
+                goacess_options="$goacess_options --jobs=${PROCESSING_THREADS}"
+            else
+                echo -e "\nError: PROCESSING_THREADS must be between 1 and 6, ignoring.\n"
+            fi
+        else
+            echo -e "\nError: PROCESSING_THREADS does not contain an integer, ignoring.\n"
         fi
     fi
 
