@@ -15,9 +15,9 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 **Dependencies:**
 - GoAccess version: 1.9.1
-- GeoLite2-City.mmdb  (2024-02-10)
-- GeoLite2-Country.mmdb  (2024-02-10)
-- GeoLite2-ASN.mmdb  (2024-02-10)
+- GeoLite2-City.mmdb  (2024-03-07)
+- GeoLite2-Country.mmdb  (2024-03-07)
+- GeoLite2-ASN.mmdb  (2024-03-07)
 
 ---
 
