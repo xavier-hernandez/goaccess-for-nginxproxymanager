@@ -1,4 +1,4 @@
-FROM alpine:3.18 AS builder
+FROM alpine:3.19.1 AS builder
 
 RUN apk add --no-cache \
         build-base \
@@ -9,7 +9,7 @@ RUN apk add --no-cache \
 
 # download goaccess
 WORKDIR /goaccess-temp
-COPY /assests/goaccess/goaccess-1.9.1.tar.gz goaccess.tar.gz
+COPY /assests/goaccess/goaccess-1.9.2.tar.gz goaccess.tar.gz
 
 # set up goacess-debug
 WORKDIR /goaccess-debug
@@ -29,7 +29,7 @@ RUN ./configure --enable-utf8 --enable-geoip=mmdb --with-getline
 RUN make
 RUN make install
 
-FROM alpine:3.18
+FROM alpine:3.19.1
 RUN apk add --no-cache \
         bash \
         nginx \
