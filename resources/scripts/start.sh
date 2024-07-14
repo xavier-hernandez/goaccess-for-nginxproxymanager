@@ -9,7 +9,7 @@ source $(dirname "$0")/logs/custom.sh
 source $(dirname "$0")/logs/ncsa_combined.sh
 source $(dirname "$0")/logs/nginx_access.sh
 
-goan_version="GOAN v1.1.28"
+goan_version="GOAN v1.1.29"
 goan_log_path="/opt/log"
 
 goaccess_ping_interval=15

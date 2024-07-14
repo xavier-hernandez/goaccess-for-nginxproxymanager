@@ -1,3 +1,8 @@
+```
+07/13/2024
+
+Due to the other priorities and projects I will be updating this code at least once a month
+```
 # GoAccess for Nginx Proxy Manager Logs
   
 Still in development... You might need to wait a bit if you have a large amount of logs for it to parse.
@@ -14,10 +19,10 @@ Still in development... You might need to wait a bit if you have a large amount 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 **Dependencies:**
-- GoAccess version: 1.9.2
-- GeoLite2-City.mmdb  (2024-04-21)
-- GeoLite2-Country.mmdb  (2024-04-21)
-- GeoLite2-ASN.mmdb  (2024-04-21)
+- GoAccess version: 1.9.3
+- GeoLite2-City.mmdb  (2024-07-12)
+- GeoLite2-Country.mmdb  (2024-07-12)
+- GeoLite2-ASN.mmdb  (2024-07-12)
 
 ---
 
