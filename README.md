@@ -12,6 +12,7 @@ Still in development... You might need to wait a bit if you have a large amount 
 - NPM Redirection
 - NPM Error
 - Traefik
+- Caddy
 - Load your own custom config as well to parse other logs
  
 <br/>
@@ -111,8 +112,8 @@ services:
 | `-e BASIC_AUTH_PASSWORD=pass`         |   (Optional) Requires BASIC_AUTH to bet set to True.  Password for basic authentication.     |
 | `-e EXCLUDE_IPS=`         |   (Optional) IP Addresses or range of IPs delimited by comma refer to https://goaccess.io/man. For example: 192.168.0.1-192.168.0.100 or 127.0.0.1,192.168.0.1-192.168.0.100   |
 | `-e INCLUDE_PROXY_HOSTS=`         |   (Optional) Only consume the list of provided proxy hosts. This is a comma separated list containing the proxy host number for example "11,21". This would consume proxy-host-11_access.log* and proxy-host-21_access.log* . The host number can be found right clicking on the 3 dots on the proxy host line in the GUI.  |
-| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK, NCSA_COMBINED. More information below.|
-| `-e LOG_TYPE_FILE_PATTERN=`         |   (Optional) Only to be used with LOG_TYPE=NCSA_COMBINED or TRAEFIK. This parameter will pass along the file type you are trying match. For example you can pass -e LOG_TYPE_FILE_PATTERN="*.log" or -e LOG_TYPE_FILE_PATTERN="access.log". The default is *.log. Please keep it simple as I have not tested this completely. Use at your own RISK! |
+| `-e LOG_TYPE=`         |   (Optional) By default the configuration will be set to read NPM logs. Options are: CUSTOM, NPM, NPM+R, TRAEFIK, NCSA_COMBINED, CADDY_V1. More information below.|
+| `-e LOG_TYPE_FILE_PATTERN=`         |   (Optional) Only to be used with LOG_TYPE=NCSA_COMBINED, CADDY_V1, or TRAEFIK. This parameter will pass along the file type you are trying match. For example you can pass -e LOG_TYPE_FILE_PATTERN="*.log" or -e LOG_TYPE_FILE_PATTERN="access.log". The default is *.log. Please keep it simple as I have not tested this completely. Use at your own RISK! |
 | `-e LANG=zh_CN.UTF-8 -e LANGUAGE=zh_CN.UTF-8`         |   (Optional) Language localization added. GoAccess only has a few translations available. Please visit https://github.com/allinurl/goaccess/tree/master/po to see the translations available. <br/><br/>**Current Translations**<br/>de - German<br/>es - Spanish<br/>fr - French<br/>it - Italian<br/>ja - Japanese<br/>ko - Korean<br/>pt_BR - Portuguese (Brazil)<br/>ru - Russian<br/>sv - Swedish<br/>uk - English (United Kingdom)<br/>zh_CN - Chinese - Simplified|
 | `-e ENABLE_BROWSERS_LIST=True/False`         |   (Optional) Defaults to False. Set to true if you would like to enable the [goaccess browsers.list](https://github.com/allinurl/goaccess/blob/master/config/browsers.list) file.     |
 | `-e CUSTOM_BROWSERS=`         |   - (Optional) Consumes the list of provided custom browsers. This is a comma separated list containing the custom browser(s) in the format `Browser:Browser_category`.<br/>- If your custom browser is already defined in the default `browsers.list` file, it will not be added. However, the `Browser_category` can be reused.<br/><br/> CUSTOM_BROWSERS list example: `Kuma:Crawlers,TestBrowser:Crawlers,Kuma:Uptime,Discordbot:Crawlers`<br/><br/>For the example above, only `Kuma:Crawlers` and `TestBrowser:Crawlers` will be appended to the `browsers.list` file. <br/><br/>`Kuma:Uptime` is ignored as the browser `Kuma` has already been defined in `Kuma:Crawlers`. `Discordbot:Crawlers` is ignored as the browser `Discordbot` is already defined in the [default browsers.list file](https://github.com/allinurl/goaccess/blob/master/config/browsers.list)<br/><br/>Note for users using CUSTOM LOG_TYPE:<br/><br/>If your `goaccess.conf` file references a browsers.list file other than the one located in the `/goaccess-config/ directory`, the CUSTOM_BROWSERS variable will be ignored.    |
@@ -170,7 +171,11 @@ services:
     - You can also set the following environment variables yourself to override the defaults
       - TIME_FORMAT
       - DATE_FORMAT
-      - LOG_FORMAT  
+      - LOG_FORMAT 
+  - CADDY_V1
+    - environment parameters that will not work and will be ignored
+      - SKIP_ARCHIVED_LOGS
+    - by default only access.log is read and parsed
 
       ```
       FOR EXAMPLE
@@ -226,6 +231,13 @@ date-format %d/%b/%Y
 log-format %h %^[%d:%t %^] "%r" %s %b "%R" "%u"
 ```
 
+### CADDY LOG FORMAT
+```
+time-format %s
+date-format %s
+date-spec min
+log-format CADDY
+```
 
 # **Possible/Known Issues** 
 - A lot of CPU Usage and 10000 request every second in webUI
