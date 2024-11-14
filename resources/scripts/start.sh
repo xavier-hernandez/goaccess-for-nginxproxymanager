@@ -8,8 +8,9 @@ source $(dirname "$0")/logs/traefik.sh
 source $(dirname "$0")/logs/custom.sh
 source $(dirname "$0")/logs/ncsa_combined.sh
 source $(dirname "$0")/logs/nginx_access.sh
+source $(dirname "$0")/logs/caddy.sh
 
-goan_version="GOAN v1.1.30"
+goan_version="GOAN v1.1.31"
 goan_log_path="/opt/log"
 
 goaccess_ping_interval=15
@@ -83,6 +84,8 @@ elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then
     custom
 elif [[ "${LOG_TYPE}" == "NGINX_ACCESS" ]]; then
     nginx_access
+elif [[ "${LOG_TYPE}" == "CADDY_V1" ]]; then
+    caddyV1 
 fi
 # END PROXY LOGS
 
