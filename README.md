@@ -70,7 +70,7 @@ services:
             - PROCESSING_THREADS=1 #optional - This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log
-        - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
+        - /path/to/host/custom:/opt/custom
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
@@ -100,7 +100,7 @@ services:
             - PROCESSING_THREADS=1 #optional - This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log
-        - /path/to/host/custom:/opt/custom #optional, required if using log_type = CUSTOM
+        - /path/to/host/custom:/opt/custom
 ```
 
 | Parameter | Function |
