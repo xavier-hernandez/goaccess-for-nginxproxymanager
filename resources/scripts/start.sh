@@ -10,7 +10,7 @@ source $(dirname "$0")/logs/ncsa_combined.sh
 source $(dirname "$0")/logs/nginx_access.sh
 source $(dirname "$0")/logs/caddy.sh
 
-goan_version="GOAN v1.1.32"
+goan_version="GOAN v1.1.33"
 goan_log_path="/opt/log"
 
 goaccess_ping_interval=15
@@ -81,7 +81,13 @@ elif [[ "${LOG_TYPE}" == "TRAEFIK" ]]; then
 elif [[ "${LOG_TYPE}" == "NCSA_COMBINED" ]]; then
     ncsa_combined
 elif [[ "${LOG_TYPE}" == "CUSTOM" ]]; then
-    custom
+    if [ -d "/opt/custom" ] && [ -w "/opt/custom" ]; then
+        echo "Custom directory /opt/custom is available."
+        custom
+    else
+        echo "Custom directory /opt/custom is not available. Exiting..."
+        exit 1
+    fi
 elif [[ "${LOG_TYPE}" == "NGINX_ACCESS" ]]; then
     nginx_access
 elif [[ "${LOG_TYPE}" == "CADDY_V1" ]]; then
