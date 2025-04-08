@@ -69,8 +69,6 @@ function traefik(){
 
         if [[ -z "${LOG_TYPE_FILE_PATTERN}" ]]; then
             LOG_TYPE_FILE_PATTERN="access.log"
-        else
-            LOG_TYPE_FILE_PATTERN="*.log"
         fi
 
         for file in $(find "${goan_log_path}" -name "${LOG_TYPE_FILE_PATTERN}");
