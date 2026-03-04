@@ -69,10 +69,18 @@ services:
             - CUSTOM_BROWSERS=Kuma:Uptime,TestBrowser:Crawler #optional - comma delimited, more information below
             - HTML_REFRESH=5 #optional - Refresh the HTML report every X seconds. https://goaccess.io/man
             - KEEP_LAST=30 #optional - Keep the last specified number of days in storage. https://goaccess.io/man
+            - PERSIST=True #optional - Persist parsed data to disk. https://goaccess.io/man
+            - RESTORE=True #optional - #Load previously stored data from disk. https://goaccess.io/man
+            - DB_PATH=/var/cache/goaccess #optional - Path where on-disk database files are stored. Default: /tmp. https://goaccess.io/man
             - PROCESSING_THREADS=1 #optional - This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log:ro
         - /path/to/host/custom:/opt/custom:ro #optional, required if using log_type = CUSTOM
+        - goaccess_cache:/var/cache/goaccess #optional, required if using DB_PATH
+
+volumes:
+  goaccess_cache:
+    driver: local
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
@@ -99,10 +107,18 @@ services:
             - CUSTOM_BROWSERS=Kuma:Uptime,TestBrowser:Crawler #optional - comma delimited, more information below
             - HTML_REFRESH=5 #optional - Refresh the HTML report every X seconds. https://goaccess.io/man
             - KEEP_LAST=30 #optional - Keep the last specified number of days in storage. https://goaccess.io/man
+            - PERSIST=True #optional - Persist parsed data to disk. https://goaccess.io/man
+            - RESTORE=True #optional - #Load previously stored data from disk. https://goaccess.io/man
+            - DB_PATH=/var/cache/goaccess #optional - Path where on-disk database files are stored. Default: /tmp. https://goaccess.io/man
             - PROCESSING_THREADS=1 #optional - This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1. https://goaccess.io/man
         volumes:
         - /path/to/host/nginx/logs:/opt/log:ro
         - /path/to/host/custom:/opt/custom:ro #optional, required if using log_type = CUSTOM
+        - goaccess_cache:/var/cache/goaccess #optional, required if using DB_PATH
+
+volumes:
+  goaccess_cache:
+    driver: local
 ```
 
 | Parameter | Function |
@@ -121,6 +137,9 @@ services:
 | `-e CUSTOM_BROWSERS=`         |   - (Optional) Consumes the list of provided custom browsers. This is a comma separated list containing the custom browser(s) in the format `Browser:Browser_category`.<br/>- If your custom browser is already defined in the default `browsers.list` file, it will not be added. However, the `Browser_category` can be reused.<br/><br/> CUSTOM_BROWSERS list example: `Kuma:Crawlers,TestBrowser:Crawlers,Kuma:Uptime,Discordbot:Crawlers`<br/><br/>For the example above, only `Kuma:Crawlers` and `TestBrowser:Crawlers` will be appended to the `browsers.list` file. <br/><br/>`Kuma:Uptime` is ignored as the browser `Kuma` has already been defined in `Kuma:Crawlers`. `Discordbot:Crawlers` is ignored as the browser `Discordbot` is already defined in the [default browsers.list file](https://github.com/allinurl/goaccess/blob/master/config/browsers.list)<br/><br/>Note for users using CUSTOM LOG_TYPE:<br/><br/>If your `goaccess.conf` file references a browsers.list file other than the one located in the `/goaccess-config/ directory`, the CUSTOM_BROWSERS variable will be ignored.    |
 | `-e HTML_REFRESH=`         |   (Optional) Refresh the HTML report every X seconds. https://goaccess.io/man |
 | `-e KEEP_LAST=`         |   (Optional) Keep the last specified number of days in storage. https://goaccess.io/man|
+| `-e PERSIST=True/False` |   (Optional) Persist parsed data to disk. https://goaccess.io/man|
+| `-e RESTORE=True/False` |   (Optional) Load previously stored data from disk. https://goaccess.io/man|
+| `-e DB_PATH=` |   (Optional) Path where on-disk database files are stored. Default: /tmp. https://goaccess.io/man|
 | `-e PROCESSING_THREADS=` | (Optional) This parameter sets the number of concurrent processing threads in the program's execution, affecting log data analysis, typically adjusted based on CPU cores. Default is 1.
   
 

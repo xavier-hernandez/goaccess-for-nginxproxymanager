@@ -107,6 +107,22 @@ function runGoAccess(){
         fi
     fi
 
+    if [[ "${PERSIST}" == "True" ]]; then
+        goacess_options="$goacess_options --persist"
+    fi
+
+    if [[ "${RESTORE}" == "True" ]]; then
+        goacess_options="$goacess_options --restore"
+    fi
+
+    if [ -n "$DB_PATH" ]; then
+        if [ -d "$DB_PATH" ]; then
+            goacess_options="$goacess_options --db-path=$DB_PATH"
+        else
+            echo -e "\nError: DB_PATH does not point to a directory, ignoring.\n"
+        fi
+    fi
+
     if [[ "${DEBUG}" == "True" ]]; then
         /goaccess-debug/goaccess --debug-file=${goaccess_debug_file} --invalid-requests=${goaccess_invalid_file} --no-global-config --config-file=${goan_config} &
     else
