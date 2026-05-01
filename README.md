@@ -20,10 +20,10 @@ Still in development... You might need to wait a bit if you have a large amount 
 ![Alt text](https://i.ibb.co/fNj9Dcy/goaccess1.jpg "GoAccess Dashboard")
 
 **Dependencies:**
-- GoAccess version: 1.9.4
-- GeoLite2-City.mmdb  (2025-12-12)
-- GeoLite2-Country.mmdb  (2025-12-12)
-- GeoLite2-ASN.mmdb  (2025-12-12)
+- GoAccess version: 1.10.2
+- GeoLite2-City.mmdb  (2026-04-30)
+- GeoLite2-Country.mmdb  (2026-04-30)
+- GeoLite2-ASN.mmdb  (2026-04-30)
 
 ---
 
