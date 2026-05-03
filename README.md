@@ -48,7 +48,7 @@ Still in development... You might need to wait a bit if you have a large amount 
 
 
 ```yml
-version: '3.3'
+
 services:
     goaccess:
         image: 'xavierh/goaccess-for-nginxproxymanager:latest'
@@ -84,7 +84,7 @@ volumes:
 ```
 If you have permission issues, you can add PUID and PGID with the correct user id that has read access to the log files.
 ```yml
-version: '3.3'
+
 services:
     goaccess:
         image: 'xavierh/goaccess-for-nginxproxymanager:latest'
